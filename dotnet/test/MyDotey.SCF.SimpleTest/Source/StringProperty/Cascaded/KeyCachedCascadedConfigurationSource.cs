@@ -15,17 +15,17 @@ namespace MyDotey.SCF.Source.StringProperty.Cascaded
     public class KeyCachedCascadedConfigurationSource<C> : CascadedConfigurationSource<C>
         where C : ConfigurationSourceConfig
     {
-        private CascadedKeyDictionary<String, String> _cascadedKeyDictionary;
+        private CascadedKeyDictionary<string, string> _cascadedKeyDictionary;
 
         public KeyCachedCascadedConfigurationSource(CascadedConfigurationSourceConfig<C> config)
             : base(config)
         {
-            _cascadedKeyDictionary = new CascadedKeyDictionary<String, String>();
+            _cascadedKeyDictionary = new CascadedKeyDictionary<string, string>();
         }
 
-        protected override String getKey(params String[] keyParts)
+        protected override string GetKey(params string[] keyParts)
         {
-            return _cascadedKeyDictionary.GetOrAdd(base.getKey, keyParts);
+            return _cascadedKeyDictionary.GetOrAdd(base.GetKey, keyParts);
         }
     }
 }

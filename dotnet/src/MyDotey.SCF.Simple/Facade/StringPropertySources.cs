@@ -3,7 +3,7 @@ using System;
 using MyDotey.SCF.Source.StringProperty;
 using MyDotey.SCF.Source.StringProperty.Cascaded;
 using MyDotey.SCF.Source.StringProperty.EnvironmentVariable;
-using MyDotey.SCF.Source.StringProperty.MemoryMap;
+using MyDotey.SCF.Source.StringProperty.MemoryDictionary;
 using MyDotey.SCF.Source.StringProperty.PropertiesFile;
 
 namespace MyDotey.SCF.Facade
@@ -20,36 +20,36 @@ namespace MyDotey.SCF.Facade
 
         }
 
-        public static EnvironmentVariableConfigurationSource newEnvironmentVariableSource(String name)
+        public static EnvironmentVariableConfigurationSource NewEnvironmentVariableSource(string name)
         {
-            ConfigurationSourceConfig config = ConfigurationSources.newConfig(name);
+            ConfigurationSourceConfig config = ConfigurationSources.NewConfig(name);
             return new EnvironmentVariableConfigurationSource(config);
         }
 
-        public static MemoryMapConfigurationSource newMemoryMapSource(String name)
+        public static MemoryDictionaryConfigurationSource NewMemoryDictionarySource(string name)
         {
-            ConfigurationSourceConfig config = ConfigurationSources.newConfig(name);
-            return new MemoryMapConfigurationSource(config);
+            ConfigurationSourceConfig config = ConfigurationSources.NewConfig(name);
+            return new MemoryDictionaryConfigurationSource(config);
         }
 
-        public static PropertiesFileConfigurationSourceConfig.Builder newPropertiesFileSourceConfigBuilder()
+        public static PropertiesFileConfigurationSourceConfig.Builder NewPropertiesFileSourceConfigBuilder()
         {
             return new PropertiesFileConfigurationSourceConfig.Builder();
         }
 
-        public static PropertiesFileConfigurationSource newPropertiesFileSource(
+        public static PropertiesFileConfigurationSource NewPropertiesFileSource(
                 PropertiesFileConfigurationSourceConfig config)
         {
             return new PropertiesFileConfigurationSource(config);
         }
 
-        public static CascadedConfigurationSourceConfig<C>.Builder newCascadedSourceConfigBuilder<C>()
+        public static CascadedConfigurationSourceConfig<C>.Builder NewCascadedSourceConfigBuilder<C>()
             where C : ConfigurationSourceConfig
         {
             return new CascadedConfigurationSourceConfig<C>.Builder();
         }
 
-        public static CascadedConfigurationSource<C> newCascadedSource<C>(CascadedConfigurationSourceConfig<C> config)
+        public static CascadedConfigurationSource<C> NewCascadedSource<C>(CascadedConfigurationSourceConfig<C> config)
             where C : ConfigurationSourceConfig
         {
             return new CascadedConfigurationSource<C>(config);

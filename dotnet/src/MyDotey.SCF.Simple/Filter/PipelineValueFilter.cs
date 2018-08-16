@@ -14,14 +14,14 @@ namespace MyDotey.SCF.Filter
      */
     public class PipelineValueFilter<V> : AbstractValueFilter<V>
     {
-        private List<ValueFilter<V>> _filters;
+        private List<IValueFilter<V>> _filters;
 
-        public PipelineValueFilter(List<ValueFilter<V>> filters)
+        public PipelineValueFilter(List<IValueFilter<V>> filters)
         {
             if (filters == null)
                 throw new ArgumentNullException("filters is null");
 
-            _filters = new List<ValueFilter<V>>();
+            _filters = new List<IValueFilter<V>>();
             filters.ForEach(f =>
             {
                 if (f != null)
@@ -34,7 +34,7 @@ namespace MyDotey.SCF.Filter
 
         public override V Filter(V t)
         {
-            foreach (ValueFilter<V> filter in _filters)
+            foreach (IValueFilter<V> filter in _filters)
             {
                 t = filter.Filter(t);
                 if (Object.Equals(t, default(V)))

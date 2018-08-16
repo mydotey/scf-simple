@@ -10,9 +10,9 @@ namespace MyDotey.SCF.Type.String
      */
     public class StringToListConverter<V> : StringConverter<List<V>>
     {
-        private TypeConverter<string, V> _typeConverter;
+        private ITypeConverter<string, V> _typeConverter;
 
-        public StringToListConverter(TypeConverter<string, V> typeConverter)
+        public StringToListConverter(ITypeConverter<string, V> typeConverter)
         {
             if (typeConverter == null)
                 throw new ArgumentNullException("typeConverter is null");
@@ -73,10 +73,10 @@ namespace MyDotey.SCF.Type.String
 
     public class StringToListConverter : StringToListConverter<string>
     {
-        public static readonly StringToListConverter DEFAULT = new StringToListConverter();
+        public static readonly StringToListConverter Default = new StringToListConverter();
 
         protected StringToListConverter()
-            : base(StringInplaceConverter.DEFAULT)
+            : base(StringInplaceConverter.Default)
         {
 
         }

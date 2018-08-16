@@ -13,11 +13,11 @@ namespace MyDotey.SCF.Threading
      * 
      * Simple Thread Pool
      */
-    public class TaskExecutor : IDisposable
+    public class TaskExecutor
     {
-        private static Logger LOGGER = LogManager.GetCurrentClassLogger(typeof(TaskExecutor));
+        private static Logger Logger = LogManager.GetCurrentClassLogger(typeof(TaskExecutor));
 
-        public virtual void run(Action task)
+        public virtual void Run(Action task)
         {
             if (task == null)
                 throw new ArgumentNullException("task is null");
@@ -25,13 +25,8 @@ namespace MyDotey.SCF.Threading
             Task.Run(task).ContinueWith(t =>
             {
                 if (t.Exception != null)
-                    LOGGER.Error(t.Exception, "task failed");
+                    Logger.Error(t.Exception, "task failed");
             });
-        }
-
-        public virtual void Dispose()
-        {
-
         }
     }
 }

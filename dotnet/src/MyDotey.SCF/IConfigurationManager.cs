@@ -8,17 +8,17 @@ namespace MyDotey.SCF
      *
      * May 16, 2018
      */
-    public interface ConfigurationManager
+    public interface IConfigurationManager
     {
         /**
          * @see ConfigurationManagerConfig
          */
-        ConfigurationManagerConfig getConfig();
+        ConfigurationManagerConfig Config { get; }
 
         /**
          * the properties created in @see {@link ConfigurationManager#getProperty(PropertyConfig)}
          */
-        ICollection<Property> getProperties();
+        ICollection<IProperty> Properties { get; }
 
         /**
          * get property value by @see {@link ConfigurationManager#getPropertyValue(PropertyConfig)},
@@ -28,7 +28,7 @@ namespace MyDotey.SCF
          * <p>
          * same propertyConfig in, same property out, 1 key 1 property
          */
-        Property<K, V> getProperty<K, V>(PropertyConfig<K, V> propertyConfig);
+        IProperty<K, V> GetProperty<K, V>(PropertyConfig<K, V> propertyConfig);
 
         /**
          * get property value in each configuration source by source priority
@@ -41,11 +41,11 @@ namespace MyDotey.SCF
          * <p>
          * after handling all sources, no non-null value got, return null
          */
-        V getPropertyValue<K, V>(PropertyConfig<K, V> propertyConfig);
+        V GetPropertyValue<K, V>(PropertyConfig<K, V> propertyConfig);
 
         /**
          * listeners to the property change, notified once property changed
          */
-        void addChangeListener(Action<PropertyChangeEvent> changeListener);
+        void AddChangeListener(Action<IPropertyChangeEvent> changeListener);
     }
 }

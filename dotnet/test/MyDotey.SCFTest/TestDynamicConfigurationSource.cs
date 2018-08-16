@@ -17,12 +17,12 @@ namespace MyDotey.SCF
         {
         }
 
-        protected override void init()
+        protected override void Init()
         {
             _properties = new ConcurrentDictionary<String, String>();
         }
 
-        public void setPropertyValue(String key, String value)
+        public virtual void SetPropertyValue(String key, String value)
         {
             _properties.TryGetValue(key, out String oldValue);
             if (Object.Equals(oldValue, value))
@@ -33,7 +33,7 @@ namespace MyDotey.SCF
             else
                 _properties[key] = value;
 
-            raiseChangeEvent();
+            RaiseChangeEvent();
         }
     }
 }

@@ -9,7 +9,7 @@ namespace MyDotey.SCF.Type.String
     */
     public class StringToBooleanConverter : StringConverter<bool?>
     {
-        public static readonly StringToBooleanConverter DEFAULT = new StringToBooleanConverter();
+        public static readonly StringToBooleanConverter Default = new StringToBooleanConverter();
 
         public override bool? Convert(string source) {
             if (string.IsNullOrWhiteSpace(source))

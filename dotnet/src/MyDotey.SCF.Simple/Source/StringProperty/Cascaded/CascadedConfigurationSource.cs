@@ -20,38 +20,38 @@ namespace MyDotey.SCF.Source.StringProperty.Cascaded
         where C : ConfigurationSourceConfig
     {
         private StringPropertyConfigurationSource<C> _source;
-        private List<String> _cascadedKeyParts;
+        private List<string> _cascadedKeyParts;
 
         public CascadedConfigurationSource(CascadedConfigurationSourceConfig<C> config)
             : base(config)
         {
-            _source = config.getSource();
-            _source.addChangeListener(s => raiseChangeEvent());
+            _source = config.Source;
+            _source.AddChangeListener(s => RaiseChangeEvent());
 
-            init();
+            Init();
         }
 
-        protected virtual void init()
+        protected virtual void Init()
         {
-            _cascadedKeyParts = new List<String>();
+            _cascadedKeyParts = new List<string>();
 
             StringBuilder keyPart = new StringBuilder("");
             _cascadedKeyParts.Add(keyPart.ToString());
-            foreach (String factor in getConfig().getCascadedFactors())
+            foreach (string factor in Config.CascadedFactors)
             {
-                keyPart.Append(getConfig().getKeySeparator()).Append(factor);
+                keyPart.Append(Config.KeySeparator).Append(factor);
                 _cascadedKeyParts.Add(keyPart.ToString());
             }
 
             _cascadedKeyParts.Reverse();
         }
 
-        public override String getPropertyValue(String key)
+        public override string GetPropertyValue(string key)
         {
-            foreach (String keyPart in _cascadedKeyParts)
+            foreach (string keyPart in _cascadedKeyParts)
             {
-                String cascadedKey = getKey(key, keyPart);
-                String value = _source.getPropertyValue(cascadedKey);
+                string cascadedKey = GetKey(key, keyPart);
+                string value = _source.GetPropertyValue(cascadedKey);
                 if (value != null)
                     return value;
             }
@@ -65,13 +65,13 @@ namespace MyDotey.SCF.Source.StringProperty.Cascaded
          * @param keyParts
          * @return property value
          */
-        protected virtual String getKey(params String[] keyParts)
+        protected virtual string GetKey(params string[] keyParts)
         {
             if (keyParts == null)
                 return null;
 
             StringBuilder stringBuilder = new StringBuilder();
-            foreach (String part in keyParts)
+            foreach (string part in keyParts)
                 stringBuilder.Append(part);
             return stringBuilder.ToString();
         }

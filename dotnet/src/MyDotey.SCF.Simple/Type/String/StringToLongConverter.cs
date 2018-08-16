@@ -9,7 +9,7 @@ namespace MyDotey.SCF.Type.String
      */
     public class StringToLongConverter : StringConverter<long?>
     {
-        public static readonly StringToLongConverter DEFAULT = new StringToLongConverter();
+        public static readonly StringToLongConverter Default = new StringToLongConverter();
 
         public override long? Convert(string source)
         {

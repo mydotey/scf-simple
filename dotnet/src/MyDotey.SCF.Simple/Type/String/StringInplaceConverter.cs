@@ -9,6 +9,6 @@ namespace MyDotey.SCF.Type.String
      */
     public class StringInplaceConverter : InplaceConverter<System.String>
     {
-        public static readonly StringInplaceConverter DEFAULT = new StringInplaceConverter();
+        public static readonly StringInplaceConverter Default = new StringInplaceConverter();
     }
 }

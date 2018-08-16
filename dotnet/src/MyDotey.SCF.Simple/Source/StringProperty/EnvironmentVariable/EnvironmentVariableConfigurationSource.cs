@@ -18,7 +18,7 @@ namespace MyDotey.SCF.Source.StringProperty.EnvironmentVariable
         {
         }
 
-        public override string getPropertyValue(string key)
+        public override string GetPropertyValue(string key)
         {
             return Environment.GetEnvironmentVariable(key);
         }

@@ -9,7 +9,7 @@ namespace MyDotey.SCF.Type.String
      */
     public class StringToDoubleConverter : StringConverter<double?>
     {
-        public static readonly StringToDoubleConverter DEFAULT = new StringToDoubleConverter();
+        public static readonly StringToDoubleConverter Default = new StringToDoubleConverter();
 
         public override double? Convert(string source)
         {

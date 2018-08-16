@@ -15,7 +15,7 @@ namespace MyDotey.SCF
          * <p>
          * non-null, non-empty
          */
-        public abstract String getName();
+        public abstract String Name { get; }
 
         /**
          * key for the source priority, value for the source
@@ -24,7 +24,7 @@ namespace MyDotey.SCF
          * <p>
          * non-null, non-empty
          */
-        public abstract Dictionary<int, ConfigurationSource> getSources();
+        public abstract Dictionary<int, IConfigurationSource> Sources { get; }
 
         /**
          * thread pool for property value update and property change listeners
@@ -37,42 +37,42 @@ namespace MyDotey.SCF
          * <p>
          * a simple Thread Pool utility: @see org.mydotey.scf.threading.TaskExecutor
          */
-        public abstract Action<Action> getTaskExecutor();
+        public abstract Action<Action> TaskExecutor { get; }
 
-        public interface Builder : AbstractBuilder<Builder, ConfigurationManagerConfig>
+        public interface IBuilder : IAbstractBuilder<IBuilder, ConfigurationManagerConfig>
         {
 
         }
 
-        public interface AbstractBuilder<B, C>
-            where B : AbstractBuilder<B, C>
+        public interface IAbstractBuilder<B, C>
+            where B : IAbstractBuilder<B, C>
             where C : ConfigurationManagerConfig
         {
             /**
              * required
              * @see ConfigurationManagerConfig#getName()
              */
-            B setName(String name);
+            B SetName(String name);
 
             /**
              * required
              * @see ConfigurationManagerConfig#getSources()
              */
-            B addSource(int priority, ConfigurationSource source);
+            B AddSource(int priority, IConfigurationSource source);
 
             /**
              * required
              * @see ConfigurationManagerConfig#getSources()
              */
-            B addSources(Dictionary<int, ConfigurationSource> sources);
+            B AddSources(Dictionary<int, IConfigurationSource> sources);
 
             /**
              * optional
              * @see ConfigurationManagerConfig#getTaskExecutor()
              */
-            B setTaskExecutor(Action<Action> taskExecutor);
+            B SetTaskExecutor(Action<Action> taskExecutor);
 
-            C build();
+            C Build();
         }
     }
 }

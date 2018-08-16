@@ -16,7 +16,7 @@ namespace MyDotey.SCF
         public TestConfigurationSource(ConfigurationSourceConfig config, Dictionary<String, String> properties)
             : base(config)
         {
-            init();
+            Init();
 
             if (properties != null)
                 properties.ToList().ForEach(p =>
@@ -26,12 +26,12 @@ namespace MyDotey.SCF
                 });
         }
 
-        protected virtual void init()
+        protected virtual void Init()
         {
             _properties = new Dictionary<String, String>();
         }
 
-        protected override Object getPropertyValue(Object key)
+        protected override Object GetPropertyValue(Object key)
         {
             _properties.TryGetValue((String)key, out String value);
             return value;

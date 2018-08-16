@@ -9,7 +9,7 @@ namespace MyDotey.SCF.Type.String
      */
     public class StringToIntConverter : StringConverter<int?>
     {
-        public static readonly StringToIntConverter DEFAULT = new StringToIntConverter();
+        public static readonly StringToIntConverter Default = new StringToIntConverter();
 
         public override int? Convert(string source)
         {

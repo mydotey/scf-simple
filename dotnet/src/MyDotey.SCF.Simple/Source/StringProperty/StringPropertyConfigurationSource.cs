@@ -15,14 +15,14 @@ namespace MyDotey.SCF.Source.StringProperty
         {
         }
 
-        protected override object getPropertyValue(object key)
+        protected override object GetPropertyValue(object key)
         {
             if (!(key is string))
                 return null;
 
-            return getPropertyValue((string)key);
+            return GetPropertyValue((string)key);
         }
 
-        public abstract string getPropertyValue(string key);
+        public abstract string GetPropertyValue(string key);
     }
 }

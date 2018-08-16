@@ -9,11 +9,9 @@ namespace MyDotey.SCF.Source
      * 
      * Nothing Done Configuration Source
      */
-    public class NullConfigurationSource : ConfigurationSource
+    public class NullConfigurationSource : IConfigurationSource
     {
-        public static readonly NullConfigurationSource INSTANCE = new NullConfigurationSource();
-
-        private ConfigurationSourceConfig _config = NullConfigurationSourceConfig.INSTANCE;
+        public static readonly NullConfigurationSource Instance = new NullConfigurationSource();
 
         private NullConfigurationSource()
         {
@@ -23,7 +21,7 @@ namespace MyDotey.SCF.Source
         /**
          * always null
          */
-        public V getPropertyValue<K, V>(PropertyConfig<K, V> propertyConfig)
+        public V GetPropertyValue<K, V>(PropertyConfig<K, V> propertyConfig)
         {
             return default(V);
         }
@@ -31,37 +29,31 @@ namespace MyDotey.SCF.Source
         /**
          * config with name "null-configuration-source"
          */
-        public ConfigurationSourceConfig getConfig()
-        {
-            return _config;
-        }
+        public ConfigurationSourceConfig Config { get { return NullConfigurationSourceConfig.Instance; } }
 
         /**
          * always ignore the listeners
          */
-        public void addChangeListener(Action<ConfigurationSourceChangeEvent> changeListener)
+        public void AddChangeListener(Action<IConfigurationSourceChangeEvent> changeListener)
         {
 
         }
 
         public override string ToString()
         {
-            return _config.getName();
+            return NullConfigurationSourceConfig.Instance.Name;
         }
 
         private class NullConfigurationSourceConfig : ConfigurationSourceConfig
         {
-            public static readonly NullConfigurationSourceConfig INSTANCE = new NullConfigurationSourceConfig();
+            public static readonly NullConfigurationSourceConfig Instance = new NullConfigurationSourceConfig();
 
             private NullConfigurationSourceConfig()
             {
 
             }
 
-            public override string getName()
-            {
-                return "null-configuration-source";
-            }
+            public override string Name { get { return "null-configuration-source"; } }
         }
     }
 }

@@ -7,13 +7,13 @@ using MyDotey.SCF.Filter;
 
 namespace MyDotey.SCF
 {
-    public interface PropertyConfig
+    public interface IPropertyConfig
     {
-        object getKey();
-        sType getValueType();
-        object getDefaultValue();
-        ICollection<TypeConverter> getValueConverters();
-        ValueFilter getValueFilter();
+        object Key { get; }
+        sType ValueType { get; }
+        object DefaultValue { get; }
+        ICollection<ITypeConverter> ValueConverters { get; }
+        IValueFilter ValueFilter { get; }
     }
 
     /**
@@ -21,11 +21,11 @@ namespace MyDotey.SCF
      *
      * May 17, 2018
      */
-    public abstract class PropertyConfig<K, V> : PropertyConfig
+    public abstract class PropertyConfig<K, V> : IPropertyConfig
     {
-        object PropertyConfig.getKey()
+        object IPropertyConfig.Key
         {
-            return getKey();
+            get { return Key; }
         }
 
         /**
@@ -33,24 +33,18 @@ namespace MyDotey.SCF
          * <p>
          * non-null, non-empty
          */
-        public abstract K getKey();
+        public abstract K Key { get; }
 
-        sType PropertyConfig.getValueType()
-        {
-            return typeof(V);
-        }
+        sType IPropertyConfig.ValueType { get { return typeof(V); } }
 
-        object PropertyConfig.getDefaultValue()
-        {
-            return getDefaultValue();
-        }
+        object IPropertyConfig.DefaultValue { get { return DefaultValue; } }
 
         /**
          * default value of the property
          * <p>
          * default to null
          */
-        public abstract V getDefaultValue();
+        public abstract V DefaultValue { get; }
 
         /**
          * type converters used to convert values of different types,
@@ -59,12 +53,9 @@ namespace MyDotey.SCF
          * <p>
          * default to null
          */
-        public abstract ICollection<TypeConverter> getValueConverters();
+        public abstract ICollection<ITypeConverter> ValueConverters { get; }
 
-        ValueFilter PropertyConfig.getValueFilter()
-        {
-            return getValueFilter();
-        }
+        IValueFilter IPropertyConfig.ValueFilter { get { return ValueFilter; } }
 
         /**
          * a chance for the user to check the value before using a property value provided by a configuration source,
@@ -73,15 +64,15 @@ namespace MyDotey.SCF
          * <p>
          * default to null
          */
-        public abstract ValueFilter<V> getValueFilter();
+        public abstract IValueFilter<V> ValueFilter { get; }
 
-        public interface Builder : AbstractBuilder<Builder, PropertyConfig<K, V>>
+        public interface IBuilder : IAbstractBuilder<IBuilder, PropertyConfig<K, V>>
         {
 
         }
 
-        public interface AbstractBuilder<B, C>
-            where B : AbstractBuilder<B, C>
+        public interface IAbstractBuilder<B, C>
+            where B : IAbstractBuilder<B, C>
             where C : PropertyConfig<K, V>
         {
             /**
@@ -89,39 +80,39 @@ namespace MyDotey.SCF
              * <p>
              * @see PropertyConfig#getKey()
              */
-            B setKey(K key);
+            B SetKey(K key);
 
             /**
              * optional
              * <p>
              * @see PropertyConfig#getDefaultValue()
              */
-            B setDefaultValue(V value);
+            B SetDefaultValue(V value);
 
             /**
              * optional
              * <p>
              * @see PropertyConfig#getValueConverters()
              */
-            B addValueConverter(TypeConverter valueConverter);
+            B AddValueConverter(ITypeConverter valueConverter);
 
             /**
              * optional
              * <p>
              * @see PropertyConfig#getValueConverters()
              */
-            B addValueConverters(ICollection<TypeConverter> valueConverters);
+            B AddValueConverters(ICollection<ITypeConverter> valueConverters);
 
             /**
              * optional
              * <p>
              * @see PropertyConfig#getValueFilter()
              */
-            B setValueFilter(ValueFilter<V> valueFilter);
+            B SetValueFilter(IValueFilter<V> valueFilter);
 
-            B setValueFilter(Func<V, V> valueFilter);
+            B SetValueFilter(Func<V, V> valueFilter);
 
-            C build();
+            C Build();
         }
     }
 }

@@ -25,9 +25,9 @@ namespace MyDotey.SCF
             NLog.LogManager.Configuration = config;
         }
 
-        protected TestConfigurationSource createSource()
+        protected virtual TestConfigurationSource CreateSource()
         {
-            ConfigurationSourceConfig sourceConfig = ConfigurationSources.newConfig("test-source");
+            ConfigurationSourceConfig sourceConfig = ConfigurationSources.NewConfig("test-source");
             Dictionary<string, string> properties = new Dictionary<string, string>();
             properties["exist"] = "ok";
             properties["exist2"] = "ok2";
@@ -39,9 +39,9 @@ namespace MyDotey.SCF
             return source;
         }
 
-        protected TestDynamicConfigurationSource createDynamicSource()
+        protected virtual TestDynamicConfigurationSource CreateDynamicSource()
         {
-            ConfigurationSourceConfig sourceConfig = ConfigurationSources.newConfig("test-source");
+            ConfigurationSourceConfig sourceConfig = ConfigurationSources.NewConfig("test-source");
             Dictionary<string, string> properties = new Dictionary<string, string>();
             properties["exist"] = "ok.2";
             properties["exist2"] = "ok2.2";
@@ -52,250 +52,250 @@ namespace MyDotey.SCF
             return source;
         }
 
-        protected ConfigurationManager createManager(Dictionary<int, ConfigurationSource> sources)
+        protected virtual IConfigurationManager CreateManager(Dictionary<int, IConfigurationSource> sources)
         {
-            ConfigurationManagerConfig managerConfig = ConfigurationManagers.newConfigBuilder().setName("test")
-                    .addSources(sources).build();
+            ConfigurationManagerConfig managerConfig = ConfigurationManagers.NewConfigBuilder().SetName("test")
+                    .AddSources(sources).Build();
             Console.WriteLine("manager config: " + managerConfig + "\n");
-            return ConfigurationManagers.newManager(managerConfig);
+            return ConfigurationManagers.NewManager(managerConfig);
         }
 
         [Fact]
-        public void testDuplicatePrioritySource()
+        public virtual void TestDuplicatePrioritySource()
         {
-            TestConfigurationSource source1 = createSource();
-            TestDynamicConfigurationSource source2 = createDynamicSource();
+            TestConfigurationSource source1 = CreateSource();
+            TestDynamicConfigurationSource source2 = CreateDynamicSource();
             Assert.Throws<ArgumentException>(
-                () => ConfigurationManagers.newConfigBuilder().addSource(1, source1).addSource(1, source2));
+                () => ConfigurationManagers.NewConfigBuilder().AddSource(1, source1).AddSource(1, source2));
         }
 
         [Fact()]
-        public void testGetProperties()
+        public virtual void TestGetProperties()
         {
-            ConfigurationManager manager = createManager(new Dictionary<int, ConfigurationSource>() { { 1, createSource() } });
-            PropertyConfig<string, string> propertyConfig = ConfigurationProperties.newConfigBuilder<string, string>()
-                    .setKey("not-exist").build();
-            Property<string, string> property = manager.getProperty(propertyConfig);
+            IConfigurationManager manager = CreateManager(new Dictionary<int, IConfigurationSource>() { { 1, CreateSource() } });
+            PropertyConfig<string, string> propertyConfig = ConfigurationProperties.NewConfigBuilder<string, string>()
+                    .SetKey("not-exist").Build();
+            IProperty<string, string> property = manager.GetProperty(propertyConfig);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Null(property.getValue());
+            Assert.Null(property.Value);
 
-            propertyConfig = ConfigurationProperties.newConfigBuilder<string, string>().setKey("not-exist2")
-                    .setDefaultValue("default").build();
-            property = manager.getProperty(propertyConfig);
+            propertyConfig = ConfigurationProperties.NewConfigBuilder<string, string>().SetKey("not-exist2")
+                    .SetDefaultValue("default").Build();
+            property = manager.GetProperty(propertyConfig);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Equal("default", property.getValue());
+            Assert.Equal("default", property.Value);
 
-            propertyConfig = ConfigurationProperties.newConfigBuilder<string, string>().setKey("exist")
-                    .setDefaultValue("default").build();
-            property = manager.getProperty(propertyConfig);
+            propertyConfig = ConfigurationProperties.NewConfigBuilder<string, string>().SetKey("exist")
+                    .SetDefaultValue("default").Build();
+            property = manager.GetProperty(propertyConfig);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Equal("ok", property.getValue());
+            Assert.Equal("ok", property.Value);
 
-            PropertyConfig<string, int> propertyConfig2 = ConfigurationProperties.newConfigBuilder<string, int>()
-                    .setKey("exist2").build();
-            Property<string, int> property2 = manager.getProperty(propertyConfig2);
+            PropertyConfig<string, int> propertyConfig2 = ConfigurationProperties.NewConfigBuilder<string, int>()
+                    .SetKey("exist2").Build();
+            IProperty<string, int> property2 = manager.GetProperty(propertyConfig2);
             Console.WriteLine("property: " + property2 + "\n");
-            Assert.Equal(0, property2.getValue());
+            Assert.Equal(0, property2.Value);
         }
 
         [Fact]
-        public void testSameKeyDifferentConfig()
+        public virtual void TestSameKeyDifferentConfig()
         {
-            ConfigurationManager manager = createManager(new Dictionary<int, ConfigurationSource>() { { 1, createSource() } });
-            PropertyConfig<string, string> propertyConfig = ConfigurationProperties.newConfigBuilder<string, string>()
-                    .setKey("not-exist").build();
-            Property<string, string> property = manager.getProperty(propertyConfig);
+            IConfigurationManager manager = CreateManager(new Dictionary<int, IConfigurationSource>() { { 1, CreateSource() } });
+            PropertyConfig<string, string> propertyConfig = ConfigurationProperties.NewConfigBuilder<string, string>()
+                    .SetKey("not-exist").Build();
+            IProperty<string, string> property = manager.GetProperty(propertyConfig);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Null(property.getValue());
+            Assert.Null(property.Value);
 
-            propertyConfig = ConfigurationProperties.newConfigBuilder<string, string>().setKey("not-exist")
-                    .setDefaultValue("default").build();
-            Assert.Throws<ArgumentException>(() => manager.getProperty(propertyConfig));
+            propertyConfig = ConfigurationProperties.NewConfigBuilder<string, string>().SetKey("not-exist")
+                    .SetDefaultValue("default").Build();
+            Assert.Throws<ArgumentException>(() => manager.GetProperty(propertyConfig));
         }
 
         [Fact]
-        public void testSameConfigSameProperty()
+        public virtual void TestSameConfigSameProperty()
         {
-            ConfigurationManager manager = createManager(new Dictionary<int, ConfigurationSource>() { { 1, createSource() } });
-            PropertyConfig<string, string> propertyConfig = ConfigurationProperties.newConfigBuilder<string, string>()
-                    .setKey("not-exist").build();
-            Property<string, string> property = manager.getProperty(propertyConfig);
+            IConfigurationManager manager = CreateManager(new Dictionary<int, IConfigurationSource>() { { 1, CreateSource() } });
+            PropertyConfig<string, string> propertyConfig = ConfigurationProperties.NewConfigBuilder<string, string>()
+                    .SetKey("not-exist").Build();
+            IProperty<string, string> property = manager.GetProperty(propertyConfig);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Null(property.getValue());
+            Assert.Null(property.Value);
 
-            Property<string, string> property2 = manager.getProperty(propertyConfig);
+            IProperty<string, string> property2 = manager.GetProperty(propertyConfig);
             Console.WriteLine("property2: " + property + "\n");
             Assert.True(Object.ReferenceEquals(property, property2));
 
-            PropertyConfig<string, string> propertyConfig2 = ConfigurationProperties.newConfigBuilder<string, string>()
-                    .setKey("not-exist").build();
-            Property<string, string> property3 = manager.getProperty(propertyConfig2);
+            PropertyConfig<string, string> propertyConfig2 = ConfigurationProperties.NewConfigBuilder<string, string>()
+                    .SetKey("not-exist").Build();
+            IProperty<string, string> property3 = manager.GetProperty(propertyConfig2);
             Console.WriteLine("property3: " + property2 + "\n");
             Assert.True(Object.ReferenceEquals(property, property3));
         }
 
         [Fact]
-        public void testGetPropertyWithFilter()
+        public virtual void TestGetPropertyWithFilter()
         {
-            ConfigurationManager manager = createManager(new Dictionary<int, ConfigurationSource>() { { 1, createSource() } });
-            PropertyConfig<string, string> propertyConfig = ConfigurationProperties.newConfigBuilder<string, string>()
-                    .setKey("exist").setValueFilter(v =>
+            IConfigurationManager manager = CreateManager(new Dictionary<int, IConfigurationSource>() { { 1, CreateSource() } });
+            PropertyConfig<string, string> propertyConfig = ConfigurationProperties.NewConfigBuilder<string, string>()
+                    .SetKey("exist").SetValueFilter(v =>
                     {
                         if (Object.Equals("ok", v))
                             return "ok_new";
                         return null;
-                    }).build();
-            Property<string, string> property = manager.getProperty(propertyConfig);
+                    }).Build();
+            IProperty<string, string> property = manager.GetProperty(propertyConfig);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Equal("ok_new", property.getValue());
+            Assert.Equal("ok_new", property.Value);
 
-            propertyConfig = ConfigurationProperties.newConfigBuilder<string, string>().setKey("exist2")
-                    .setValueFilter(v =>
+            propertyConfig = ConfigurationProperties.NewConfigBuilder<string, string>().SetKey("exist2")
+                    .SetValueFilter(v =>
                     {
                         return v.Length >= 8 && v.Length <= 32 ? v : null;
-                    }).build();
-            property = manager.getProperty(propertyConfig);
+                    }).Build();
+            property = manager.GetProperty(propertyConfig);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Null(property.getValue());
+            Assert.Null(property.Value);
         }
 
         [Fact]
-        public void testGetPropertyWithDiffFilterInSimilarConfig()
+        public virtual void TestGetPropertyWithDiffFilterInSimilarConfig()
         {
-            ConfigurationManager manager = createManager(new Dictionary<int, ConfigurationSource>() { { 1, createSource() } });
-            PropertyConfig<string, string> propertyConfig = ConfigurationProperties.newConfigBuilder<string, string>()
-                    .setKey("exist").setValueFilter(v =>
+            IConfigurationManager manager = CreateManager(new Dictionary<int, IConfigurationSource>() { { 1, CreateSource() } });
+            PropertyConfig<string, string> propertyConfig = ConfigurationProperties.NewConfigBuilder<string, string>()
+                    .SetKey("exist").SetValueFilter(v =>
                     {
                         if (Object.Equals("ok", v))
                             return "ok_new";
                         return null;
-                    }).build();
+                    }).Build();
             Console.WriteLine("propertyConfig: " + propertyConfig + "\n");
-            Property<string, string> property = manager.getProperty(propertyConfig);
-            Assert.Equal("ok_new", property.getValue());
+            IProperty<string, string> property = manager.GetProperty(propertyConfig);
+            Assert.Equal("ok_new", property.Value);
 
-            propertyConfig = ConfigurationProperties.newConfigBuilder<string, string>().setKey("exist")
-                    .setValueFilter(v =>
+            propertyConfig = ConfigurationProperties.NewConfigBuilder<string, string>().SetKey("exist")
+                    .SetValueFilter(v =>
                     {
                         if (Object.Equals("ok", v))
                             return "ok_new";
                         return null;
-                    }).build();
+                    }).Build();
             Console.WriteLine("propertyConfig: " + propertyConfig + "\n");
-            Assert.Throws<ArgumentException>(() => manager.getProperty(propertyConfig));
+            Assert.Throws<ArgumentException>(() => manager.GetProperty(propertyConfig));
         }
 
         [Fact]
-        public void testGetPropertyWithDynamicSource()
+        public virtual void TestGetPropertyWithDynamicSource()
         {
-            TestDynamicConfigurationSource source = createDynamicSource();
-            ConfigurationManager manager = createManager(new Dictionary<int, ConfigurationSource>() { { 1, source } });
-            PropertyConfig<string, string> propertyConfig = ConfigurationProperties.newConfigBuilder<string, string>()
-                    .setKey("exist").build();
-            Property<string, string> property = manager.getProperty(propertyConfig);
+            TestDynamicConfigurationSource source = CreateDynamicSource();
+            IConfigurationManager manager = CreateManager(new Dictionary<int, IConfigurationSource>() { { 1, source } });
+            PropertyConfig<string, string> propertyConfig = ConfigurationProperties.NewConfigBuilder<string, string>()
+                    .SetKey("exist").Build();
+            IProperty<string, string> property = manager.GetProperty(propertyConfig);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Equal("ok.2", property.getValue());
+            Assert.Equal("ok.2", property.Value);
 
-            source.setPropertyValue("exist", "okx");
+            source.SetPropertyValue("exist", "okx");
             Console.WriteLine("property: " + property + "\n");
-            Assert.Equal("okx", property.getValue());
+            Assert.Equal("okx", property.Value);
 
-            source.setPropertyValue("exist", "ok.2");
+            source.SetPropertyValue("exist", "ok.2");
             Console.WriteLine("property: " + property + "\n");
-            Assert.Equal("ok.2", property.getValue());
+            Assert.Equal("ok.2", property.Value);
 
             ObjectReference<bool> touched = new ObjectReference<bool>();
-            property.addChangeListener(p => touched.Value = true);
-            property.addChangeListener(e => Console.WriteLine("property: {0}, changeTime: {1}, from: {2}, to: {3}\n",
-                    e.getProperty(), e.getChangeTime(), e.getOldValue(), e.getNewValue()));
-            source.setPropertyValue("exist", "okx");
+            property.AddChangeListener(p => touched.Value = true);
+            property.AddChangeListener(e => Console.WriteLine("property: {0}, changeTime: {1}, from: {2}, to: {3}\n",
+                    e.Property, e.ChangeTime, e.OldValue, e.NewValue));
+            source.SetPropertyValue("exist", "okx");
             Console.WriteLine("property: " + property + "\n");
-            Assert.Equal("okx", property.getValue());
+            Assert.Equal("okx", property.Value);
             Assert.True(touched.Value);
         }
 
         [Fact]
-        public void testGetPropertiesMultipleSource()
+        public virtual void TestGetPropertiesMultipleSource()
         {
-            TestConfigurationSource source1 = createSource();
-            TestDynamicConfigurationSource source2 = createDynamicSource();
-            ConfigurationManager manager = createManager(
-                new Dictionary<int, ConfigurationSource>()
+            TestConfigurationSource source1 = CreateSource();
+            TestDynamicConfigurationSource source2 = CreateDynamicSource();
+            IConfigurationManager manager = CreateManager(
+                new Dictionary<int, IConfigurationSource>()
                 {
                     { 1, source1 },
                     { 2, source2 },
                 });
-            PropertyConfig<string, string> propertyConfig = ConfigurationProperties.newConfigBuilder<string, string>()
-                    .setKey("not-exist").build();
-            Property<string, string> property = manager.getProperty(propertyConfig);
+            PropertyConfig<string, string> propertyConfig = ConfigurationProperties.NewConfigBuilder<string, string>()
+                    .SetKey("not-exist").Build();
+            IProperty<string, string> property = manager.GetProperty(propertyConfig);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Null(property.getValue());
+            Assert.Null(property.Value);
 
-            propertyConfig = ConfigurationProperties.newConfigBuilder<string, string>().setKey("not-exist2")
-                    .setDefaultValue("default").build();
-            property = manager.getProperty(propertyConfig);
+            propertyConfig = ConfigurationProperties.NewConfigBuilder<string, string>().SetKey("not-exist2")
+                    .SetDefaultValue("default").Build();
+            property = manager.GetProperty(propertyConfig);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Equal("default", property.getValue());
+            Assert.Equal("default", property.Value);
 
-            propertyConfig = ConfigurationProperties.newConfigBuilder<string, string>().setKey("exist")
-                    .setDefaultValue("default").build();
-            property = manager.getProperty(propertyConfig);
+            propertyConfig = ConfigurationProperties.NewConfigBuilder<string, string>().SetKey("exist")
+                    .SetDefaultValue("default").Build();
+            property = manager.GetProperty(propertyConfig);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Equal("ok.2", property.getValue());
+            Assert.Equal("ok.2", property.Value);
 
-            propertyConfig = ConfigurationProperties.newConfigBuilder<string, string>().setKey("exist5")
-                    .setDefaultValue("default").build();
-            property = manager.getProperty(propertyConfig);
+            propertyConfig = ConfigurationProperties.NewConfigBuilder<string, string>().SetKey("exist5")
+                    .SetDefaultValue("default").Build();
+            property = manager.GetProperty(propertyConfig);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Equal("ok5", property.getValue());
+            Assert.Equal("ok5", property.Value);
 
-            source2.setPropertyValue("exist5", "ok5.2");
+            source2.SetPropertyValue("exist5", "ok5.2");
             Console.WriteLine("property: " + property + "\n");
-            Assert.Equal("ok5.2", property.getValue());
+            Assert.Equal("ok5.2", property.Value);
 
-            source2.setPropertyValue("exist5", null);
+            source2.SetPropertyValue("exist5", null);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Equal("ok5", property.getValue());
+            Assert.Equal("ok5", property.Value);
         }
 
         [Fact]
-        public void testChangeListener()
+        public virtual void TestChangeListener()
         {
-            TestDynamicConfigurationSource source = createDynamicSource();
-            ConfigurationManager manager = createManager(new Dictionary<int, ConfigurationSource>() { { 1, source } });
+            TestDynamicConfigurationSource source = CreateDynamicSource();
+            IConfigurationManager manager = CreateManager(new Dictionary<int, IConfigurationSource>() { { 1, source } });
             ObjectReference<int> changeCount = new ObjectReference<int>();
-            manager.addChangeListener(e =>
+            manager.AddChangeListener(e =>
             {
                 changeCount.Value = changeCount.Value + 1;
                 Console.WriteLine("property changed: " + e);
             });
 
-            PropertyConfig<string, string> propertyConfig = ConfigurationProperties.newConfigBuilder<string, string>()
-                    .setKey("exist").build();
-            Property<string, string> property = manager.getProperty(propertyConfig);
+            PropertyConfig<string, string> propertyConfig = ConfigurationProperties.NewConfigBuilder<string, string>()
+                    .SetKey("exist").Build();
+            IProperty<string, string> property = manager.GetProperty(propertyConfig);
             ObjectReference<int> changeCount2 = new ObjectReference<int>();
-            property.addChangeListener(p => changeCount2.Value = changeCount2.Value + 1);
+            property.AddChangeListener(p => changeCount2.Value = changeCount2.Value + 1);
 
-            source.setPropertyValue("exist", "okx");
+            source.SetPropertyValue("exist", "okx");
             Assert.Equal(1, changeCount.Value);
             Assert.Equal(1, changeCount2.Value);
 
-            source.setPropertyValue("exist", "ok.2");
+            source.SetPropertyValue("exist", "ok.2");
             Assert.Equal(2, changeCount.Value);
             Assert.Equal(2, changeCount2.Value);
 
-            source.setPropertyValue("exist", "okx");
+            source.SetPropertyValue("exist", "okx");
             Assert.Equal(3, changeCount.Value);
             Assert.Equal(3, changeCount2.Value);
 
             // value not change, no change event
-            source.setPropertyValue("exist", "okx");
+            source.SetPropertyValue("exist", "okx");
             Assert.Equal(3, changeCount.Value);
             Assert.Equal(3, changeCount2.Value);
         }
 
         [Fact]
-        public void testEquality()
+        public virtual void TestEquality()
         {
             var l1 = new List<String>() { "1", "2" };
             var l2 = new List<String>() { "1", "2" };
@@ -326,7 +326,7 @@ namespace MyDotey.SCF
         {
             private volatile object _value;
 
-            public T Value { get { return (T)_value; } set { _value = value; } }
+            public virtual T Value { get { return (T)_value; } set { _value = value; } }
 
             public ObjectReference()
                 : this(default(T))

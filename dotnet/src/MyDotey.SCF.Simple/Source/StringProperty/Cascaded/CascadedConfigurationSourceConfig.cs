@@ -20,20 +20,11 @@ namespace MyDotey.SCF.Source.StringProperty.Cascaded
 
         }
 
-        public string getKeySeparator()
-        {
-            return _keySeparator;
-        }
+        public virtual string KeySeparator { get { return _keySeparator; } }
 
-        public List<string> getCascadedFactors()
-        {
-            return _cascadedFactors;
-        }
+        public virtual List<string> CascadedFactors { get { return _cascadedFactors; } }
 
-        public StringPropertyConfigurationSource<C> getSource()
-        {
-            return _source;
-        }
+        public virtual StringPropertyConfigurationSource<C> Source { get { return _source; } }
 
         public override object Clone()
         {
@@ -46,63 +37,63 @@ namespace MyDotey.SCF.Source.StringProperty.Cascaded
         public override string ToString()
         {
             return string.Format("{0} {{ name: {1}, keySeparator: {2}, cascadedFactors: [ {3} ], source {4} }}", GetType().Name,
-                getName(), _keySeparator, _cascadedFactors == null ? null : string.Join(", ", _cascadedFactors), _source);
+                Name, _keySeparator, _cascadedFactors == null ? null : string.Join(", ", _cascadedFactors), _source);
         }
 
         public new class Builder : DefaultConfigurationSourceConfig.DefaultAbstractBuilder<Builder, CascadedConfigurationSourceConfig<C>>
         {
-            protected override CascadedConfigurationSourceConfig<C> newConfig()
+            protected override CascadedConfigurationSourceConfig<C> NewConfig()
             {
                 return new CascadedConfigurationSourceConfig<C>();
             }
 
-            public virtual Builder setKeySeparator(string keySeparator)
+            public virtual Builder SetKeySeparator(string keySeparator)
             {
-                getConfig()._keySeparator = keySeparator;
+                Config._keySeparator = keySeparator;
                 return this;
             }
 
-            public virtual Builder addCascadedFactor(string cascadedFactor)
+            public virtual Builder AddCascadedFactor(string cascadedFactor)
             {
                 if (string.IsNullOrWhiteSpace(cascadedFactor))
                     return this;
 
                 cascadedFactor = cascadedFactor.Trim();
-                if (getConfig()._cascadedFactors == null)
-                    getConfig()._cascadedFactors = new List<string>();
-                getConfig()._cascadedFactors.Add(cascadedFactor);
+                if (Config._cascadedFactors == null)
+                    Config._cascadedFactors = new List<string>();
+                Config._cascadedFactors.Add(cascadedFactor);
 
                 return this;
             }
 
-            public virtual Builder addCascadedFactors(List<string> cascadedFactors)
+            public virtual Builder AddCascadedFactors(List<string> cascadedFactors)
             {
                 if (cascadedFactors != null)
-                    cascadedFactors.ForEach(f => addCascadedFactor(f));
+                    cascadedFactors.ForEach(f => AddCascadedFactor(f));
 
                 return this;
             }
 
-            public virtual Builder setSource(StringPropertyConfigurationSource<C> source)
+            public virtual Builder SetSource(StringPropertyConfigurationSource<C> source)
             {
-                getConfig()._source = source;
+                Config._source = source;
 
                 return this;
             }
 
-            public override CascadedConfigurationSourceConfig<C> build()
+            public override CascadedConfigurationSourceConfig<C> Build()
             {
-                if (string.IsNullOrWhiteSpace(getConfig()._keySeparator))
+                if (string.IsNullOrWhiteSpace(Config._keySeparator))
                     throw new ArgumentNullException("keySeparator is null or whitespace");
-                getConfig()._keySeparator = getConfig().getKeySeparator().Trim();
+                Config._keySeparator = Config._keySeparator.Trim();
 
-                if (getConfig()._cascadedFactors == null || getConfig()._cascadedFactors.Count == 0)
+                if (Config._cascadedFactors == null || Config._cascadedFactors.Count == 0)
                     throw new ArgumentNullException("cascadedFactors is null or empty");
 
-                if (getConfig()._source == null)
+                if (Config._source == null)
                     throw new ArgumentNullException("source is null");
 
-                return base.build();
+                return base.Build();
             }
         }
     }

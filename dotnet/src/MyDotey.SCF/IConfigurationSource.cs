@@ -7,12 +7,12 @@ namespace MyDotey.SCF
      *
      * May 16, 2018
      */
-    public interface ConfigurationSource
+    public interface IConfigurationSource
     {
         /**
          * @see ConfigurationSourceConfig
          */
-        ConfigurationSourceConfig getConfig();
+        ConfigurationSourceConfig Config { get; }
 
         /**
          * get property value acccording to the property config
@@ -23,13 +23,13 @@ namespace MyDotey.SCF
          * <p>
          * otherwise, null returned
          */
-        V getPropertyValue<K, V>(PropertyConfig<K, V> propertyConfig);
+        V GetPropertyValue<K, V>(PropertyConfig<K, V> propertyConfig);
 
         /**
          * listeners to the source change, notified once source changed
          * <p>
          * will be used by the configuration manager
          */
-        void addChangeListener(Action<ConfigurationSourceChangeEvent> changeListener);
+        void AddChangeListener(Action<IConfigurationSourceChangeEvent> changeListener);
     }
 }

@@ -4,7 +4,7 @@ using System.Threading;
 using Xunit;
 using MyDotey.SCF.Facade;
 using MyDotey.SCF.Threading;
-using MyDotey.SCF.Source.StringProperty.MemoryMap;
+using MyDotey.SCF.Source.StringProperty.MemoryDictionary;
 
 namespace MyDotey.SCF.Source.StringProperty.Cascaded
 {
@@ -15,158 +15,158 @@ namespace MyDotey.SCF.Source.StringProperty.Cascaded
      */
     public class CascadedConfigurationSourceTest
     {
-        protected MemoryMapConfigurationSource createSource()
+        protected virtual MemoryDictionaryConfigurationSource CreateSource()
         {
-            return StringPropertySources.newMemoryMapSource("memory-map");
+            return StringPropertySources.NewMemoryDictionarySource("memory-map");
         }
 
-        protected ConfigurationManager createManager(MemoryMapConfigurationSource source)
+        protected virtual IConfigurationManager CreateManager(MemoryDictionaryConfigurationSource source)
         {
-            CascadedConfigurationSourceConfig<ConfigurationSourceConfig> sourceConfig = StringPropertySources.newCascadedSourceConfigBuilder<ConfigurationSourceConfig>()
-                    .setName("cascaded-memory-map").setKeySeparator(".").addCascadedFactor("part1")
-                    .addCascadedFactor("part2").setSource(source).build();
-            CascadedConfigurationSource<ConfigurationSourceConfig> cascadedSource = StringPropertySources.newCascadedSource<ConfigurationSourceConfig>(sourceConfig);
+            CascadedConfigurationSourceConfig<ConfigurationSourceConfig> sourceConfig = StringPropertySources.NewCascadedSourceConfigBuilder<ConfigurationSourceConfig>()
+                    .SetName("cascaded-memory-map").SetKeySeparator(".").AddCascadedFactor("part1")
+                    .AddCascadedFactor("part2").SetSource(source).Build();
+            CascadedConfigurationSource<ConfigurationSourceConfig> cascadedSource = StringPropertySources.NewCascadedSource<ConfigurationSourceConfig>(sourceConfig);
             TaskExecutor taskExecutor = new TaskExecutor();
-            ConfigurationManagerConfig managerConfig = ConfigurationManagers.newConfigBuilder().setName("test")
-                    .addSource(1, cascadedSource).setTaskExecutor(taskExecutor.run).build();
+            ConfigurationManagerConfig managerConfig = ConfigurationManagers.NewConfigBuilder().SetName("test")
+                    .AddSource(1, cascadedSource).SetTaskExecutor(taskExecutor.Run).Build();
             Console.WriteLine("manager config: " + managerConfig + "\n");
-            return ConfigurationManagers.newManager(managerConfig);
+            return ConfigurationManagers.NewManager(managerConfig);
         }
 
-        protected ConfigurationManager createKeyCachedManager(MemoryMapConfigurationSource source)
+        protected virtual IConfigurationManager CreateKeyCachedManager(MemoryDictionaryConfigurationSource source)
         {
-            CascadedConfigurationSourceConfig<ConfigurationSourceConfig> sourceConfig = StringPropertySources.newCascadedSourceConfigBuilder<ConfigurationSourceConfig>()
-                    .setName("cascaded-memory-map").setKeySeparator(".").addCascadedFactor("part1")
-                    .addCascadedFactor("part2").setSource(source).build();
+            CascadedConfigurationSourceConfig<ConfigurationSourceConfig> sourceConfig = StringPropertySources.NewCascadedSourceConfigBuilder<ConfigurationSourceConfig>()
+                    .SetName("cascaded-memory-map").SetKeySeparator(".").AddCascadedFactor("part1")
+                    .AddCascadedFactor("part2").SetSource(source).Build();
             CascadedConfigurationSource<ConfigurationSourceConfig> cascadedSource = new KeyCachedCascadedConfigurationSource<ConfigurationSourceConfig>(sourceConfig);
             TaskExecutor taskExecutor = new TaskExecutor();
-            ConfigurationManagerConfig managerConfig = ConfigurationManagers.newConfigBuilder().setName("test")
-                    .addSource(1, cascadedSource).setTaskExecutor(taskExecutor.run).build();
+            ConfigurationManagerConfig managerConfig = ConfigurationManagers.NewConfigBuilder().SetName("test")
+                    .AddSource(1, cascadedSource).SetTaskExecutor(taskExecutor.Run).Build();
             Console.WriteLine("manager config: " + managerConfig + "\n");
-            return ConfigurationManagers.newManager(managerConfig);
+            return ConfigurationManagers.NewManager(managerConfig);
         }
 
         [Fact]
-        public void testGetProperties()
+        public virtual void TestGetProperties()
         {
-            MemoryMapConfigurationSource source = createSource();
-            source.setPropertyValue("exist", "ok");
+            MemoryDictionaryConfigurationSource source = CreateSource();
+            source.SetPropertyValue("exist", "ok");
 
-            ConfigurationManager manager = createManager(source);
+            IConfigurationManager manager = CreateManager(source);
 
-            PropertyConfig<String, String> propertyConfig = ConfigurationProperties.newConfigBuilder<String, String>()
-                        .setKey("not-exist").build();
-            Property<String, String> property = manager.getProperty(propertyConfig);
+            PropertyConfig<String, String> propertyConfig = ConfigurationProperties.NewConfigBuilder<String, String>()
+                        .SetKey("not-exist").Build();
+            IProperty<String, String> property = manager.GetProperty(propertyConfig);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Null(property.getValue());
+            Assert.Null(property.Value);
 
-            propertyConfig = ConfigurationProperties.newConfigBuilder<String, String>().setKey("not-exist2")
-                        .setDefaultValue("default").build();
-            property = manager.getProperty(propertyConfig);
+            propertyConfig = ConfigurationProperties.NewConfigBuilder<String, String>().SetKey("not-exist2")
+                        .SetDefaultValue("default").Build();
+            property = manager.GetProperty(propertyConfig);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Equal("default", property.getValue());
+            Assert.Equal("default", property.Value);
 
-            propertyConfig = ConfigurationProperties.newConfigBuilder<String, String>().setKey("exist")
-                        .setDefaultValue("default").build();
-            property = manager.getProperty(propertyConfig);
+            propertyConfig = ConfigurationProperties.NewConfigBuilder<String, String>().SetKey("exist")
+                        .SetDefaultValue("default").Build();
+            property = manager.GetProperty(propertyConfig);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Equal("ok", property.getValue());
+            Assert.Equal("ok", property.Value);
 
-            source.setPropertyValue("exist", "ok2");
+            source.SetPropertyValue("exist", "ok2");
             Thread.Sleep(10);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Equal("ok2", property.getValue());
+            Assert.Equal("ok2", property.Value);
         }
 
         [Fact]
-        public void testDynamicProperty()
+        public virtual void TestDynamicProperty()
         {
-            MemoryMapConfigurationSource source = createSource();
-            source.setPropertyValue("exist", "ok");
+            MemoryDictionaryConfigurationSource source = CreateSource();
+            source.SetPropertyValue("exist", "ok");
 
-            ConfigurationManager manager = createManager(source);
-            PropertyConfig<String, String> propertyConfig = ConfigurationProperties.newConfigBuilder<String, String>()
-                     .setKey("exist").setDefaultValue("default").build();
-            Property<String, String> property = manager.getProperty(propertyConfig);
+            IConfigurationManager manager = CreateManager(source);
+            PropertyConfig<String, String> propertyConfig = ConfigurationProperties.NewConfigBuilder<String, String>()
+                     .SetKey("exist").SetDefaultValue("default").Build();
+            IProperty<String, String> property = manager.GetProperty(propertyConfig);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Equal("ok", property.getValue());
+            Assert.Equal("ok", property.Value);
 
-            source.setPropertyValue("exist", "ok2");
+            source.SetPropertyValue("exist", "ok2");
             Thread.Sleep(10);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Equal("ok2", property.getValue());
+            Assert.Equal("ok2", property.Value);
 
-            source.setPropertyValue("exist", "ok3");
+            source.SetPropertyValue("exist", "ok3");
             Thread.Sleep(10);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Equal("ok3", property.getValue());
+            Assert.Equal("ok3", property.Value);
 
-            source.setPropertyValue("exist", "ok4");
+            source.SetPropertyValue("exist", "ok4");
             Thread.Sleep(10);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Equal("ok4", property.getValue());
+            Assert.Equal("ok4", property.Value);
         }
 
         [Fact]
-        public void testCascadedProperty()
+        public virtual void TestCascadedProperty()
         {
-            MemoryMapConfigurationSource source = createSource();
-            source.setPropertyValue("exist", "ok");
+            MemoryDictionaryConfigurationSource source = CreateSource();
+            source.SetPropertyValue("exist", "ok");
 
-            ConfigurationManager manager = createManager(source);
+            IConfigurationManager manager = CreateManager(source);
 
-            PropertyConfig<String, String> propertyConfig = ConfigurationProperties.newConfigBuilder<String, String>()
-                         .setKey("exist").setDefaultValue("default").build();
-            Property<String, String> property = manager.getProperty(propertyConfig);
+            PropertyConfig<String, String> propertyConfig = ConfigurationProperties.NewConfigBuilder<String, String>()
+                         .SetKey("exist").SetDefaultValue("default").Build();
+            IProperty<String, String> property = manager.GetProperty(propertyConfig);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Equal("ok", property.getValue());
+            Assert.Equal("ok", property.Value);
 
-            source.setPropertyValue("exist.part1", "ok1");
+            source.SetPropertyValue("exist.part1", "ok1");
             Thread.Sleep(10);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Equal("ok1", property.getValue());
+            Assert.Equal("ok1", property.Value);
 
-            source.setPropertyValue("exist.part1.part2", "ok2");
+            source.SetPropertyValue("exist.part1.part2", "ok2");
             Thread.Sleep(10);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Equal("ok2", property.getValue());
+            Assert.Equal("ok2", property.Value);
 
-            source.setPropertyValue("exist", null);
-            source.setPropertyValue("exist.part1.part2", null);
+            source.SetPropertyValue("exist", null);
+            source.SetPropertyValue("exist.part1.part2", null);
             Thread.Sleep(10);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Equal("ok1", property.getValue());
+            Assert.Equal("ok1", property.Value);
         }
 
         [Fact]
-        public void testKeyCachedCascadedProperty()
+        public virtual void TestKeyCachedCascadedProperty()
         {
-            MemoryMapConfigurationSource source = createSource();
-            source.setPropertyValue("exist", "ok");
+            MemoryDictionaryConfigurationSource source = CreateSource();
+            source.SetPropertyValue("exist", "ok");
 
-            ConfigurationManager manager = createKeyCachedManager(source);
+            IConfigurationManager manager = CreateKeyCachedManager(source);
 
-            PropertyConfig<String, String> propertyConfig = ConfigurationProperties.newConfigBuilder<String, String>()
-                         .setKey("exist").setDefaultValue("default").build();
-            Property<String, String> property = manager.getProperty(propertyConfig);
+            PropertyConfig<String, String> propertyConfig = ConfigurationProperties.NewConfigBuilder<String, String>()
+                         .SetKey("exist").SetDefaultValue("default").Build();
+            IProperty<String, String> property = manager.GetProperty(propertyConfig);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Equal("ok", property.getValue());
+            Assert.Equal("ok", property.Value);
 
-            source.setPropertyValue("exist.part1", "ok1");
+            source.SetPropertyValue("exist.part1", "ok1");
             Thread.Sleep(10);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Equal("ok1", property.getValue());
+            Assert.Equal("ok1", property.Value);
 
-            source.setPropertyValue("exist.part1.part2", "ok2");
+            source.SetPropertyValue("exist.part1.part2", "ok2");
             Thread.Sleep(10);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Equal("ok2", property.getValue());
+            Assert.Equal("ok2", property.Value);
 
-            source.setPropertyValue("exist", null);
-            source.setPropertyValue("exist.part1.part2", null);
+            source.SetPropertyValue("exist", null);
+            source.SetPropertyValue("exist.part1.part2", null);
             Thread.Sleep(10);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Equal("ok1", property.getValue());
+            Assert.Equal("ok1", property.Value);
         }
     }
 }

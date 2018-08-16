@@ -14,24 +14,24 @@ namespace MyDotey.SCF
          * <p>
          * non-null, non-empty
          */
-        public abstract string getName();
+        public abstract string Name { get; }
 
-        public interface Builder : AbstractBuilder<Builder, ConfigurationSourceConfig>
+        public interface IBuilder : IAbstractBuilder<IBuilder, ConfigurationSourceConfig>
         {
 
         }
 
-        public interface AbstractBuilder<B, C>
-            where B : AbstractBuilder<B, C>
+        public interface IAbstractBuilder<B, C>
+            where B : IAbstractBuilder<B, C>
             where C : ConfigurationSourceConfig
         {
             /**
              * required
              * @see ConfigurationSourceConfig#getName()
              */
-            B setName(string name);
+            B SetName(string name);
 
-            C build();
+            C Build();
         }
     }
 }

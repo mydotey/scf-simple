@@ -11,12 +11,12 @@ namespace MyDotey.SCF.Filter
      * if null returned by a filter, stop filtering and return null,
      * otherwise, apply next filter to the value
      */
-    public interface ValueFilter
+    public interface IValueFilter
     {
         object Filter(object t);
     }
 
-    public interface ValueFilter<V> : ValueFilter
+    public interface IValueFilter<V> : IValueFilter
     {
         V Filter(V t);
     }

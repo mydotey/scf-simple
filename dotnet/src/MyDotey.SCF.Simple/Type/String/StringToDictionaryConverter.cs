@@ -10,10 +10,10 @@ namespace MyDotey.SCF.Type.String
      */
     public class StringToDictionaryConverter<K, V> : StringConverter<Dictionary<K, V>>
     {
-        private TypeConverter<string, K> _keyConverter;
-        private TypeConverter<string, V> _valueConverter;
+        private ITypeConverter<string, K> _keyConverter;
+        private ITypeConverter<string, V> _valueConverter;
 
-        public StringToDictionaryConverter(TypeConverter<string, K> keyConverter, TypeConverter<string, V> valueConverter)
+        public StringToDictionaryConverter(ITypeConverter<string, K> keyConverter, ITypeConverter<string, V> valueConverter)
         {
             if (keyConverter == null)
                 throw new ArgumentNullException("keyConverter is null");
@@ -90,10 +90,10 @@ namespace MyDotey.SCF.Type.String
 
     public class StringToDictionaryConverter : StringToDictionaryConverter<string, string>
     {
-        public static readonly StringToDictionaryConverter DEFAULT = new StringToDictionaryConverter();
+        public static readonly StringToDictionaryConverter Default = new StringToDictionaryConverter();
 
         protected StringToDictionaryConverter()
-            : base(StringInplaceConverter.DEFAULT, StringInplaceConverter.DEFAULT)
+            : base(StringInplaceConverter.Default, StringInplaceConverter.Default)
         {
 
         }

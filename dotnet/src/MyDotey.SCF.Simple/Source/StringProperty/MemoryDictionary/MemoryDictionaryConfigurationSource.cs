@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Linq;
 
-namespace MyDotey.SCF.Source.StringProperty.MemoryMap
+namespace MyDotey.SCF.Source.StringProperty.MemoryDictionary
 {
     /**
      * @author koqizhao
@@ -14,23 +14,23 @@ namespace MyDotey.SCF.Source.StringProperty.MemoryMap
      * 
      * dynamic source
      */
-    public class MemoryMapConfigurationSource : StringPropertyConfigurationSource<ConfigurationSourceConfig>
+    public class MemoryDictionaryConfigurationSource : StringPropertyConfigurationSource<ConfigurationSourceConfig>
     {
         private ConcurrentDictionary<string, string> _properties;
 
-        public MemoryMapConfigurationSource(ConfigurationSourceConfig config)
+        public MemoryDictionaryConfigurationSource(ConfigurationSourceConfig config)
             : base(config)
         {
             _properties = new ConcurrentDictionary<string, string>();
         }
 
-        public override string getPropertyValue(string key)
+        public override string GetPropertyValue(string key)
         {
             _properties.TryGetValue(key, out string value);
             return value;
         }
 
-        public virtual void setPropertyValue(string key, string value)
+        public virtual void SetPropertyValue(string key, string value)
         {
             _properties.TryGetValue(key, out string oldValue);
             if (Object.Equals(oldValue, value))
@@ -41,15 +41,15 @@ namespace MyDotey.SCF.Source.StringProperty.MemoryMap
             else
                 _properties[key] = value;
 
-            raiseChangeEvent();
+            RaiseChangeEvent();
         }
 
-        public virtual void setProperties(Dictionary<string, string> properties)
+        public virtual void SetProperties(Dictionary<string, string> properties)
         {
             foreach (KeyValuePair<string, string> p in properties)
                 _properties[p.Key] = p.Value;
 
-            raiseChangeEvent();
+            RaiseChangeEvent();
         }
     }
 }

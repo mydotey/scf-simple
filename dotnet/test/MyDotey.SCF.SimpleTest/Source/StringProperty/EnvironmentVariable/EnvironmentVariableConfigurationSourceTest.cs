@@ -12,36 +12,36 @@ namespace MyDotey.SCF.Source.StringProperty.EnvironmentVariable
      */
     public class EnvironmentVariableConfigurationSourceTest
     {
-        protected ConfigurationManager createManager()
+        protected virtual IConfigurationManager CreateManager()
         {
-            ConfigurationManagerConfig managerConfig = ConfigurationManagers.newConfigBuilder().setName("test")
-                    .addSource(1, StringPropertySources.newEnvironmentVariableSource("environment-variable")).build();
+            ConfigurationManagerConfig managerConfig = ConfigurationManagers.NewConfigBuilder().SetName("test")
+                    .AddSource(1, StringPropertySources.NewEnvironmentVariableSource("environment-variable")).Build();
             Console.WriteLine("manager config: " + managerConfig + "\n");
-            return ConfigurationManagers.newManager(managerConfig);
+            return ConfigurationManagers.NewManager(managerConfig);
         }
 
         [Fact]
-        public void testGetProperties()
+        public virtual void TestGetProperties()
         {
-            ConfigurationManager manager = createManager();
-            PropertyConfig<String, String> propertyConfig = ConfigurationProperties.newConfigBuilder<String, String>()
-                    .setKey("not-exist").build();
-            Property<String, String> property = manager.getProperty(propertyConfig);
+            IConfigurationManager manager = CreateManager();
+            PropertyConfig<String, String> propertyConfig = ConfigurationProperties.NewConfigBuilder<String, String>()
+                    .SetKey("not-exist").Build();
+            IProperty<String, String> property = manager.GetProperty(propertyConfig);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Null(property.getValue());
+            Assert.Null(property.Value);
 
-            propertyConfig = ConfigurationProperties.newConfigBuilder<String, String>().setKey("not-exist2")
-                    .setDefaultValue("default").build();
-            property = manager.getProperty(propertyConfig);
+            propertyConfig = ConfigurationProperties.NewConfigBuilder<String, String>().SetKey("not-exist2")
+                    .SetDefaultValue("default").Build();
+            property = manager.GetProperty(propertyConfig);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Equal("default", property.getValue());
+            Assert.Equal("default", property.Value);
 
-            propertyConfig = ConfigurationProperties.newConfigBuilder<String, String>().setKey("PATH")
-                    .setDefaultValue("default").build();
-            property = manager.getProperty(propertyConfig);
+            propertyConfig = ConfigurationProperties.NewConfigBuilder<String, String>().SetKey("PATH")
+                    .SetDefaultValue("default").Build();
+            property = manager.GetProperty(propertyConfig);
             Console.WriteLine("property: " + property + "\n");
-            Assert.NotNull(property.getValue());
-            Assert.NotEqual("default", property.getValue());
+            Assert.NotNull(property.Value);
+            Assert.NotEqual("default", property.Value);
         }
     }
 }

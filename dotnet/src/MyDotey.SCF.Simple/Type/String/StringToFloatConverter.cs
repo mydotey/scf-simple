@@ -9,7 +9,7 @@ namespace MyDotey.SCF.Type.String
      */
     public class StringToFloatConverter : StringConverter<float?>
     {
-        public static readonly StringToFloatConverter DEFAULT = new StringToFloatConverter();
+        public static readonly StringToFloatConverter Default = new StringToFloatConverter();
 
         public override float? Convert(string source)
         {

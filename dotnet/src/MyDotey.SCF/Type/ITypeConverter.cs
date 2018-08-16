@@ -10,12 +10,12 @@ namespace MyDotey.SCF.Type
      * 
      * convert a value from source type to target type
      */
-    public interface TypeConverter<S, T> : TypeConverter
+    public interface ITypeConverter<S, T> : ITypeConverter
     {
         T Convert(S source);
     }
 
-    public interface TypeConverter
+    public interface ITypeConverter
     {
         sType SourceType { get; }
         sType TargetType { get; }

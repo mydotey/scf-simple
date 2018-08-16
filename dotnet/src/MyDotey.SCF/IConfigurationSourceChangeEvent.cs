@@ -7,9 +7,9 @@ namespace MyDotey.SCF
      *
      * Jul 19, 2018
      */
-    public interface ConfigurationSourceChangeEvent
+    public interface IConfigurationSourceChangeEvent
     {
-        ConfigurationSource Source { get; }
+        IConfigurationSource Source { get; }
         long ChangeTime { get; }
     }
 }

@@ -2,10 +2,10 @@ using System;
 
 namespace MyDotey.SCF
 {
-    public interface Property
+    public interface IProperty
     {
-        PropertyConfig getConfig();
-        object getValue();
+        IPropertyConfig Config { get; }
+        object Value { get; }
     }
 
     /**
@@ -13,23 +13,23 @@ namespace MyDotey.SCF
      *
      * May 16, 2018
      */
-    public interface Property<K, V> : Property
+    public interface IProperty<K, V> : IProperty
     {
         /**
          * @see PropertyConfig
          */
-        new PropertyConfig<K, V> getConfig();
+        new PropertyConfig<K, V> Config { get; }
 
         /**
          * property value, if not configured or no valid value, default to defaultValue Of PropertyConfig
          * <p>
          * @see PropertyConfig#getDefaultValue()
          */
-        new V getValue();
+        new V Value { get; }
 
         /**
          * listeners to the value change, notified once value changed
          */
-        void addChangeListener(Action<PropertyChangeEvent<K, V>> changeListener);
+        void AddChangeListener(Action<IPropertyChangeEvent<K, V>> changeListener);
     }
 }

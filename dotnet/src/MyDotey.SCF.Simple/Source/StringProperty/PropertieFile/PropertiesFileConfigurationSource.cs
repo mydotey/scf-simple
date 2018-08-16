@@ -15,7 +15,7 @@ namespace MyDotey.SCF.Source.StringProperty.PropertiesFile
      */
     public class PropertiesFileConfigurationSource : StringPropertyConfigurationSource<PropertiesFileConfigurationSourceConfig>
     {
-        private static Logger LOGGER = LogManager.GetCurrentClassLogger(typeof(PropertiesFileConfigurationSource));
+        private static Logger Logger = LogManager.GetCurrentClassLogger(typeof(PropertiesFileConfigurationSource));
 
         private JavaProperties _properties;
 
@@ -26,21 +26,21 @@ namespace MyDotey.SCF.Source.StringProperty.PropertiesFile
 
             try
             {
-                using (Stream @is = new FileStream(config.getFileName(), FileMode.Open))
+                using (Stream @is = new FileStream(config.FileName, FileMode.Open))
                 {
                     if (@is == null)
-                        LOGGER.Warn("file not found: {0}", config.getFileName());
+                        Logger.Warn("file not found: {0}", config.FileName);
 
                     _properties.Load(@is, new UTF8Encoding(false));
                 }
             }
             catch (Exception e)
             {
-                LOGGER.Warn(e, "failed to load properties file: " + config.getFileName());
+                Logger.Warn(e, "failed to load properties file: " + config.FileName);
             }
         }
 
-        public override String getPropertyValue(String key)
+        public override String GetPropertyValue(String key)
         {
             if (_properties == null)
                 return null;

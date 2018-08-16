@@ -5,7 +5,7 @@ using Xunit;
 using MyDotey.SCF.Facade;
 using MyDotey.SCF.Threading;
 
-namespace MyDotey.SCF.Source.StringProperty.MemoryMap
+namespace MyDotey.SCF.Source.StringProperty.MemoryDictionary
 {
     /**
      * @author koqizhao
@@ -14,75 +14,75 @@ namespace MyDotey.SCF.Source.StringProperty.MemoryMap
      */
     public class MemoryMapConfigurationSourceTest
     {
-        protected MemoryMapConfigurationSource createSource()
+        protected virtual MemoryDictionaryConfigurationSource CreateSource()
         {
-            MemoryMapConfigurationSource source = StringPropertySources.newMemoryMapSource("memory-map");
-            source.setPropertyValue("exist", "ok");
+            MemoryDictionaryConfigurationSource source = StringPropertySources.NewMemoryDictionarySource("memory-map");
+            source.SetPropertyValue("exist", "ok");
             return source;
         }
 
-        protected ConfigurationManager createManager(MemoryMapConfigurationSource source)
+        protected virtual IConfigurationManager CreateManager(MemoryDictionaryConfigurationSource source)
         {
-            ConfigurationManagerConfig managerConfig = ConfigurationManagers.newConfigBuilder().setName("test")
-                    .addSource(1, source).setTaskExecutor(new TaskExecutor().run).build();
+            ConfigurationManagerConfig managerConfig = ConfigurationManagers.NewConfigBuilder().SetName("test")
+                    .AddSource(1, source).SetTaskExecutor(new TaskExecutor().Run).Build();
             Console.WriteLine("manager config: " + managerConfig + "\n");
-            return ConfigurationManagers.newManager(managerConfig);
+            return ConfigurationManagers.NewManager(managerConfig);
         }
 
         [Fact]
-        public void testGetProperties()
+        public virtual void TestGetProperties()
         {
-            MemoryMapConfigurationSource source = createSource();
-            ConfigurationManager manager = createManager(source);
-            PropertyConfig<String, String> propertyConfig = ConfigurationProperties.newConfigBuilder<String, String>()
-                    .setKey("not-exist").build();
-            Property<String, String> property = manager.getProperty(propertyConfig);
+            MemoryDictionaryConfigurationSource source = CreateSource();
+            IConfigurationManager manager = CreateManager(source);
+            PropertyConfig<String, String> propertyConfig = ConfigurationProperties.NewConfigBuilder<String, String>()
+                    .SetKey("not-exist").Build();
+            IProperty<String, String> property = manager.GetProperty(propertyConfig);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Null(property.getValue());
+            Assert.Null(property.Value);
 
-            propertyConfig = ConfigurationProperties.newConfigBuilder<String, String>().setKey("not-exist2")
-                    .setDefaultValue("default").build();
-            property = manager.getProperty(propertyConfig);
+            propertyConfig = ConfigurationProperties.NewConfigBuilder<String, String>().SetKey("not-exist2")
+                    .SetDefaultValue("default").Build();
+            property = manager.GetProperty(propertyConfig);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Equal("default", property.getValue());
+            Assert.Equal("default", property.Value);
 
-            propertyConfig = ConfigurationProperties.newConfigBuilder<String, String>().setKey("exist")
-                    .setDefaultValue("default").build();
-            property = manager.getProperty(propertyConfig);
+            propertyConfig = ConfigurationProperties.NewConfigBuilder<String, String>().SetKey("exist")
+                    .SetDefaultValue("default").Build();
+            property = manager.GetProperty(propertyConfig);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Equal("ok", property.getValue());
+            Assert.Equal("ok", property.Value);
 
-            source.setPropertyValue("exist", "ok2");
+            source.SetPropertyValue("exist", "ok2");
             Thread.Sleep(10);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Equal("ok2", property.getValue());
+            Assert.Equal("ok2", property.Value);
         }
 
         [Fact]
-        public void testDynamicProperty()
+        public virtual void TestDynamicProperty()
         {
-            MemoryMapConfigurationSource source = createSource();
-            ConfigurationManager manager = createManager(source);
-            PropertyConfig<String, String> propertyConfig = ConfigurationProperties.newConfigBuilder<String, String>()
-                    .setKey("exist").setDefaultValue("default").build();
-            Property<String, String> property = manager.getProperty(propertyConfig);
+            MemoryDictionaryConfigurationSource source = CreateSource();
+            IConfigurationManager manager = CreateManager(source);
+            PropertyConfig<String, String> propertyConfig = ConfigurationProperties.NewConfigBuilder<String, String>()
+                    .SetKey("exist").SetDefaultValue("default").Build();
+            IProperty<String, String> property = manager.GetProperty(propertyConfig);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Equal("ok", property.getValue());
+            Assert.Equal("ok", property.Value);
 
-            source.setPropertyValue("exist", "ok2");
+            source.SetPropertyValue("exist", "ok2");
             Thread.Sleep(10);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Equal("ok2", property.getValue());
+            Assert.Equal("ok2", property.Value);
 
-            source.setPropertyValue("exist", "ok");
+            source.SetPropertyValue("exist", "ok");
             Thread.Sleep(10);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Equal("ok", property.getValue());
+            Assert.Equal("ok", property.Value);
 
-            source.setPropertyValue("exist", null);
+            source.SetPropertyValue("exist", null);
             Thread.Sleep(10);
             Console.WriteLine("property: " + property + "\n");
-            Assert.Equal("default", property.getValue());
+            Assert.Equal("default", property.Value);
         }
     }
 }
