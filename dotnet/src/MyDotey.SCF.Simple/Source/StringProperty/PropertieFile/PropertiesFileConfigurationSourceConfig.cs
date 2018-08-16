@@ -9,14 +9,12 @@ namespace MyDotey.SCF.Source.StringProperty.PropertiesFile
      */
     public class PropertiesFileConfigurationSourceConfig : DefaultConfigurationSourceConfig
     {
-        private String _fileName;
+        public virtual String FileName { get; private set; }
 
         protected PropertiesFileConfigurationSourceConfig()
         {
 
         }
-
-        public virtual String FileName { get { return _fileName; } }
 
         public override String ToString()
         {
@@ -33,18 +31,18 @@ namespace MyDotey.SCF.Source.StringProperty.PropertiesFile
 
             public virtual Builder SetFileName(String fileName)
             {
-                Config._fileName = fileName;
+                Config.FileName = fileName;
                 return this;
             }
 
             public override PropertiesFileConfigurationSourceConfig Build()
             {
-                if (string.IsNullOrWhiteSpace(Config._fileName))
+                if (string.IsNullOrWhiteSpace(Config.FileName))
                     throw new ArgumentNullException("fileName is null or empty");
 
-                Config._fileName = Config._fileName.Trim();
-                if (!Config._fileName.EndsWith(".properties"))
-                    Config._fileName += ".properties";
+                Config.FileName = Config.FileName.Trim();
+                if (!Config.FileName.EndsWith(".properties"))
+                    Config.FileName += ".properties";
 
                 return base.Build();
             }

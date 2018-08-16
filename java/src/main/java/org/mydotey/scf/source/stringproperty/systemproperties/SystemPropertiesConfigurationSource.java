@@ -35,19 +35,18 @@ public class SystemPropertiesConfigurationSource extends StringPropertyConfigura
         raiseChangeEvent();
     }
 
-    public void clearProperty(String key) {
-        String oldValue = System.getProperty(key);
-        if (oldValue == null)
-            return;
-
-        System.clearProperty(key);
-        raiseChangeEvent();
-    }
-
     public void setProperties(Properties properties) {
         System.setProperties(properties);
 
         raiseChangeEvent();
+    }
+
+    public String clearProperty(String key) {
+        String value = System.clearProperty(key);
+        if (value != null)
+            raiseChangeEvent();
+
+        return value;
     }
 
 }

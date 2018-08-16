@@ -50,4 +50,12 @@ public class MemoryMapConfigurationSource extends StringPropertyConfigurationSou
         raiseChangeEvent();
     }
 
+    public String remove(String key) {
+        String value = _properties.remove(key);
+        if (value != null)
+            raiseChangeEvent();
+
+        return value;
+    }
+
 }

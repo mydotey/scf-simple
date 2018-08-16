@@ -51,5 +51,15 @@ namespace MyDotey.SCF.Source.StringProperty.MemoryDictionary
 
             RaiseChangeEvent();
         }
+
+        public virtual string Remove(string key)
+        {
+            _properties.TryRemove(key, out string value);
+
+            if (value != null)
+                RaiseChangeEvent();
+
+            return value;
+        }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace MyDotey.SCF.Source.StringProperty.Cascaded
 {
@@ -11,33 +12,27 @@ namespace MyDotey.SCF.Source.StringProperty.Cascaded
     public class CascadedConfigurationSourceConfig<C> : DefaultConfigurationSourceConfig
         where C : ConfigurationSourceConfig
     {
-        private string _keySeparator;
-        private List<string> _cascadedFactors;
-        private StringPropertyConfigurationSource<C> _source;
+        public virtual string KeySeparator { get; private set; }
+        public virtual IList<string> CascadedFactors { get; private set; }
+        public virtual StringPropertyConfigurationSource<C> Source { get; private set; }
 
         protected CascadedConfigurationSourceConfig()
         {
 
         }
 
-        public virtual string KeySeparator { get { return _keySeparator; } }
-
-        public virtual List<string> CascadedFactors { get { return _cascadedFactors; } }
-
-        public virtual StringPropertyConfigurationSource<C> Source { get { return _source; } }
-
         public override object Clone()
         {
             CascadedConfigurationSourceConfig<C> copy = (CascadedConfigurationSourceConfig<C>)base.Clone();
-            if (_cascadedFactors != null)
-                copy._cascadedFactors = new List<string>(_cascadedFactors);
+            if (CascadedFactors != null)
+                copy.CascadedFactors = ImmutableList.CreateRange(CascadedFactors);
             return copy;
         }
 
         public override string ToString()
         {
             return string.Format("{0} {{ name: {1}, keySeparator: {2}, cascadedFactors: [ {3} ], source {4} }}", GetType().Name,
-                Name, _keySeparator, _cascadedFactors == null ? null : string.Join(", ", _cascadedFactors), _source);
+                Name, KeySeparator, CascadedFactors == null ? null : string.Join(", ", CascadedFactors), Source);
         }
 
         public new class Builder : DefaultConfigurationSourceConfig.DefaultAbstractBuilder<Builder, CascadedConfigurationSourceConfig<C>>
@@ -49,7 +44,7 @@ namespace MyDotey.SCF.Source.StringProperty.Cascaded
 
             public virtual Builder SetKeySeparator(string keySeparator)
             {
-                Config._keySeparator = keySeparator;
+                Config.KeySeparator = keySeparator;
                 return this;
             }
 
@@ -59,9 +54,9 @@ namespace MyDotey.SCF.Source.StringProperty.Cascaded
                     return this;
 
                 cascadedFactor = cascadedFactor.Trim();
-                if (Config._cascadedFactors == null)
-                    Config._cascadedFactors = new List<string>();
-                Config._cascadedFactors.Add(cascadedFactor);
+                if (Config.CascadedFactors == null)
+                    Config.CascadedFactors = new List<string>();
+                Config.CascadedFactors.Add(cascadedFactor);
 
                 return this;
             }
@@ -76,21 +71,21 @@ namespace MyDotey.SCF.Source.StringProperty.Cascaded
 
             public virtual Builder SetSource(StringPropertyConfigurationSource<C> source)
             {
-                Config._source = source;
+                Config.Source = source;
 
                 return this;
             }
 
             public override CascadedConfigurationSourceConfig<C> Build()
             {
-                if (string.IsNullOrWhiteSpace(Config._keySeparator))
+                if (string.IsNullOrWhiteSpace(Config.KeySeparator))
                     throw new ArgumentNullException("keySeparator is null or whitespace");
-                Config._keySeparator = Config._keySeparator.Trim();
+                Config.KeySeparator = Config.KeySeparator.Trim();
 
-                if (Config._cascadedFactors == null || Config._cascadedFactors.Count == 0)
+                if (Config.CascadedFactors == null || Config.CascadedFactors.Count == 0)
                     throw new ArgumentNullException("cascadedFactors is null or empty");
 
-                if (Config._source == null)
+                if (Config.Source == null)
                     throw new ArgumentNullException("source is null");
 
                 return base.Build();

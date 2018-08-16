@@ -12,7 +12,7 @@ namespace MyDotey.SCF.Source.StringProperty.MemoryDictionary
      *
      * May 22, 2018
      */
-    public class MemoryMapConfigurationSourceTest
+    public class MemoryDictionaryConfigurationSourceTest
     {
         protected virtual MemoryDictionaryConfigurationSource CreateSource()
         {
