@@ -46,7 +46,7 @@ public class PropertiesFileConfigurationSourceConfig extends DefaultConfiguratio
             if (!getConfig()._fileName.endsWith(".properties"))
                 getConfig()._fileName += ".properties";
 
-            return (PropertiesFileConfigurationSourceConfig) super.build();
+            return super.build();
         }
 
     }

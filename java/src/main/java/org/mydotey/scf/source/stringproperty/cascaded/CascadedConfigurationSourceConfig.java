@@ -108,7 +108,7 @@ public class CascadedConfigurationSourceConfig<C extends ConfigurationSourceConf
 
             Objects.requireNonNull(getConfig()._source, "source is null");
 
-            return (CascadedConfigurationSourceConfig<C>) super.build();
+            return super.build();
         }
     }
 
