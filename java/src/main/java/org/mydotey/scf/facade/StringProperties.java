@@ -7,7 +7,7 @@ import org.mydotey.scf.ConfigurationManager;
  *
  * May 21, 2018
  */
-public class StringProperties extends StringValueProperties<String> {
+public class StringProperties extends StringValueProperties<String, ConfigurationManager> {
 
     public StringProperties(ConfigurationManager manager) {
         super(manager);

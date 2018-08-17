@@ -34,7 +34,7 @@
 <dependency>
     <groupId>org.mydotey.scf</groupId>
     <artifactId>scf-simple</artifactId>
-    <version>1.4.1</version>
+    <version>1.4.2</version>
 </dependency>
 ```
 

@@ -11,21 +11,19 @@ namespace MyDotey.SCF.Facade
      *
      * May 21, 2018
      */
-    public class StringValueProperties<K>
+    public class StringValueProperties<K, M>
+        where M: IConfigurationManager
     {
-        private IConfigurationManager _manager;
+        private M _manager;
 
-        public StringValueProperties(IConfigurationManager manager)
+        public StringValueProperties(M manager)
         {
             if (manager == null)
                 throw new ArgumentNullException("manager is null");
             _manager = manager;
         }
 
-        public virtual IConfigurationManager GetManager()
-        {
-            return _manager;
-        }
+        public virtual M Manager { get { return _manager; } }
 
         public virtual IProperty<K, string> GetStringProperty(K key)
         {

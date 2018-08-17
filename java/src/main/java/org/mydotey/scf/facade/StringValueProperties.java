@@ -23,16 +23,16 @@ import org.mydotey.scf.type.string.StringToMapConverter;
  *
  * May 21, 2018
  */
-public class StringValueProperties<K> {
+public class StringValueProperties<K, M extends ConfigurationManager> {
 
-    private ConfigurationManager _manager;
+    private M _manager;
 
-    public StringValueProperties(ConfigurationManager manager) {
+    public StringValueProperties(M manager) {
         Objects.requireNonNull(manager, "manager is null");
         _manager = manager;
     }
 
-    public ConfigurationManager getManager() {
+    public M getManager() {
         return _manager;
     }
 

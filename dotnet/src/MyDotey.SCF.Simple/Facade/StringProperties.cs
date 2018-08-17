@@ -7,7 +7,7 @@ namespace MyDotey.SCF.Facade
      *
      * May 21, 2018
      */
-    public class StringProperties : StringValueProperties<string>
+    public class StringProperties : StringValueProperties<string, IConfigurationManager>
     {
         public StringProperties(IConfigurationManager manager)
             : base(manager)
