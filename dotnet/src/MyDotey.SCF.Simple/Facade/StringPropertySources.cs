@@ -3,6 +3,7 @@ using System;
 using MyDotey.SCF.Source.StringProperty;
 using MyDotey.SCF.Source.StringProperty.AppSettings;
 using MyDotey.SCF.Source.StringProperty.Cascaded;
+using MyDotey.SCF.Source.StringProperty.CommandLine;
 using MyDotey.SCF.Source.StringProperty.EnvironmentVariable;
 using MyDotey.SCF.Source.StringProperty.MemoryDictionary;
 using MyDotey.SCF.Source.StringProperty.PropertiesFile;
@@ -19,6 +20,16 @@ namespace MyDotey.SCF.Facade
         protected StringPropertySources()
         {
 
+        }
+
+        public static CommandLineConfigurationSourceConfig.Builder NewCommandLineSourceConfigBuilder()
+        {
+            return new CommandLineConfigurationSourceConfig.Builder();
+        }
+
+        public static CommandLineConfigurationSource NewCommandLineSource(CommandLineConfigurationSourceConfig config)
+        {
+            return new CommandLineConfigurationSource(config);
         }
 
         public static AppSettingsConfigurationSourceConfig.Builder NewAppSettingsSourceConfigBuilder()
