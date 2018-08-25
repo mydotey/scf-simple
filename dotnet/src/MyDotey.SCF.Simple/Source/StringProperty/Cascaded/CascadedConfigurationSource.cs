@@ -26,7 +26,7 @@ namespace MyDotey.SCF.Source.StringProperty.Cascaded
             : base(config)
         {
             _source = config.Source;
-            _source.AddChangeListener(s => RaiseChangeEvent());
+            _source.OnChange += (o, e) => RaiseChangeEvent();
 
             Init();
         }

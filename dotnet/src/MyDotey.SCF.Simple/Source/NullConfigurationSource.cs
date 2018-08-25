@@ -34,9 +34,17 @@ namespace MyDotey.SCF.Source
         /**
          * always ignore the listeners
          */
-        public void AddChangeListener(Action<IConfigurationSourceChangeEvent> changeListener)
+        public event EventHandler<IConfigurationSourceChangeEvent> OnChange
         {
+            add
+            {
 
+            }
+
+            remove
+            {
+
+            }
         }
 
         public override string ToString()
