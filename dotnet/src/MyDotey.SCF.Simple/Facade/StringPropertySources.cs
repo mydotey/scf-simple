@@ -1,6 +1,7 @@
 using System;
 
 using MyDotey.SCF.Source.StringProperty;
+using MyDotey.SCF.Source.StringProperty.AppSettings;
 using MyDotey.SCF.Source.StringProperty.Cascaded;
 using MyDotey.SCF.Source.StringProperty.EnvironmentVariable;
 using MyDotey.SCF.Source.StringProperty.MemoryDictionary;
@@ -18,6 +19,16 @@ namespace MyDotey.SCF.Facade
         protected StringPropertySources()
         {
 
+        }
+
+        public static AppSettingsConfigurationSourceConfig.Builder NewAppSettingsSourceConfigBuilder()
+        {
+            return new AppSettingsConfigurationSourceConfig.Builder();
+        }
+
+        public static AppSettingsConfigurationSource NewAppSettingsSource(AppSettingsConfigurationSourceConfig config)
+        {
+            return new AppSettingsConfigurationSource(config);
         }
 
         public static EnvironmentVariableConfigurationSource NewEnvironmentVariableSource(string name)

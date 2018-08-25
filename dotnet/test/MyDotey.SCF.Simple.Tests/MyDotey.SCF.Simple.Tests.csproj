@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <None Include="test.properties" CopyToOutputDirectory="Always" />
+    <None Include="appsettings.json" CopyToOutputDirectory="Always" />
   </ItemGroup>
   
 </Project>
