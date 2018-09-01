@@ -218,12 +218,14 @@ namespace MyDotey.SCF.Facade
 
         public virtual IProperty<K, List<string>> GetListProperty(K key, List<string> defaultValue)
         {
-            return GetProperty(key, defaultValue, StringToListConverter.Default);
+            return GetProperty(key, defaultValue, StringToListConverter.Default, null,
+                ListComparator<string>.Default);
         }
 
         public virtual List<string> GetListPropertyValue(K key, List<string> defaultValue)
         {
-            return GetPropertyValue(key, defaultValue, StringToListConverter.Default);
+            return GetPropertyValue(key, defaultValue, StringToListConverter.Default, null,
+                ListComparator<string>.Default);
         }
 
         public virtual IProperty<K, List<V>> GetListProperty<V>(K key, ITypeConverter<string, V> typeConverter)
@@ -250,13 +252,15 @@ namespace MyDotey.SCF.Facade
         public virtual IProperty<K, List<V>> GetListProperty<V>(K key, List<V> defaultValue, ITypeConverter<string, V> typeConverter,
                 Func<List<V>, List<V>> valueFilter)
         {
-            return GetProperty(key, defaultValue, new StringToListConverter<V>(typeConverter), valueFilter);
+            return GetProperty(key, defaultValue, new StringToListConverter<V>(typeConverter),
+                valueFilter, ListComparator<V>.Default);
         }
 
         public virtual List<V> GetListPropertyValue<V>(K key, List<V> defaultValue, ITypeConverter<string, V> typeConverter,
                 Func<List<V>, List<V>> valueFilter)
         {
-            return GetPropertyValue(key, defaultValue, new StringToListConverter<V>(typeConverter), valueFilter);
+            return GetPropertyValue(key, defaultValue, new StringToListConverter<V>(typeConverter),
+                valueFilter, ListComparator<V>.Default);
         }
 
         public virtual IProperty<K, Dictionary<string, string>> GetDictionaryProperty(K key)
@@ -271,12 +275,14 @@ namespace MyDotey.SCF.Facade
 
         public virtual IProperty<K, Dictionary<string, string>> GetDictionaryProperty(K key, Dictionary<string, string> defaultValue)
         {
-            return GetProperty(key, defaultValue, StringToDictionaryConverter.Default);
+            return GetProperty(key, defaultValue, StringToDictionaryConverter.Default, null,
+                DictionaryComparator<string, string>.Default);
         }
 
         public virtual Dictionary<string, string> GetDictionaryPropertyValue(K key, Dictionary<string, string> defaultValue)
         {
-            return GetPropertyValue(key, defaultValue, StringToDictionaryConverter.Default);
+            return GetPropertyValue(key, defaultValue, StringToDictionaryConverter.Default, null,
+                DictionaryComparator<string, string>.Default);
         }
 
         public virtual IProperty<K, Dictionary<MK, MV>> GetDictionaryProperty<MK, MV>(K key, ITypeConverter<string, MK> keyConverter,
@@ -307,7 +313,8 @@ namespace MyDotey.SCF.Facade
                 ITypeConverter<string, MK> keyConverter, ITypeConverter<string, MV> valueConverter,
                 Func<Dictionary<MK, MV>, Dictionary<MK, MV>> valueFilter)
         {
-            return GetProperty(key, defaultMValue, new StringToDictionaryConverter<MK, MV>(keyConverter, valueConverter), valueFilter);
+            return GetProperty(key, defaultMValue, new StringToDictionaryConverter<MK, MV>(keyConverter, valueConverter),
+                valueFilter, DictionaryComparator<MK, MV>.Default);
         }
 
         public virtual Dictionary<MK, MV> GetDictionaryPropertyValue<MK, MV>(K key, Dictionary<MK, MV> defaultValue,
@@ -315,7 +322,7 @@ namespace MyDotey.SCF.Facade
                 Func<Dictionary<MK, MV>, Dictionary<MK, MV>> valueFilter)
         {
             return GetPropertyValue(key, defaultValue, new StringToDictionaryConverter<MK, MV>(keyConverter, valueConverter),
-                    valueFilter);
+                valueFilter, DictionaryComparator<MK, MV>.Default);
         }
 
         public virtual IProperty<K, V> GetProperty<V>(K key, ITypeConverter<string, V> valueConverter)
@@ -341,24 +348,43 @@ namespace MyDotey.SCF.Facade
         public virtual IProperty<K, V> GetProperty<V>(K key, V defaultValue,
                 ITypeConverter<string, V> valueConverter, Func<V, V> valueFilter)
         {
-            PropertyConfig<K, V> propertyConfig = CreatePropertyConfig(key, defaultValue, valueConverter,
-                    valueFilter);
-            return _manager.GetProperty(propertyConfig);
+            return GetProperty<V>(key, defaultValue, valueConverter, valueFilter, null);
         }
 
         public virtual V GetPropertyValue<V>(K key, V defaultValue, ITypeConverter<string, V> valueConverter,
                 Func<V, V> valueFilter)
         {
+            return GetPropertyValue<V>(key, defaultValue, valueConverter, valueFilter, null);
+        }
+
+        public virtual IProperty<K, V> GetProperty<V>(K key, V defaultValue,
+            ITypeConverter<string, V> valueConverter, Func<V, V> valueFilter, IComparer<V> valueComparator)
+        {
             PropertyConfig<K, V> propertyConfig = CreatePropertyConfig(key, defaultValue, valueConverter,
-                    valueFilter);
+                    valueFilter, valueComparator);
+            return _manager.GetProperty(propertyConfig);
+        }
+
+        public virtual V GetPropertyValue<V>(K key, V defaultValue, ITypeConverter<string, V> valueConverter,
+            Func<V, V> valueFilter, IComparer<V> valueComparator)
+        {
+            PropertyConfig<K, V> propertyConfig = CreatePropertyConfig(key, defaultValue, valueConverter,
+                    valueFilter, valueComparator);
             return _manager.GetPropertyValue(propertyConfig);
         }
 
         protected virtual PropertyConfig<K, V> CreatePropertyConfig<V>(K key, V defaultValue,
-                ITypeConverter<string, V> valueConverter, Func<V, V> valueFilter)
+            ITypeConverter<string, V> valueConverter, Func<V, V> valueFilter)
+        {
+            return CreatePropertyConfig<V>(key, defaultValue, valueConverter, valueFilter, null);
+        }
+
+        protected virtual PropertyConfig<K, V> CreatePropertyConfig<V>(K key, V defaultValue,
+            ITypeConverter<string, V> valueConverter, Func<V, V> valueFilter, IComparer<V> valueComparator)
         {
             return ConfigurationProperties.NewConfigBuilder<K, V>().SetKey(key)
-                     .SetDefaultValue(defaultValue).AddValueConverter(valueConverter).SetValueFilter(valueFilter).Build();
+                .SetDefaultValue(defaultValue).AddValueConverter(valueConverter)
+                .SetValueFilter(valueFilter).SetValueComparator(valueComparator).Build();
         }
     }
 }

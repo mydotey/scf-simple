@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 
 using Xunit;
@@ -83,6 +84,43 @@ namespace MyDotey.SCF.Source.StringProperty.MemoryDictionary
             Thread.Sleep(10);
             Console.WriteLine("property: " + property + "\n");
             Assert.Equal("default", property.Value);
+        }
+
+        [Fact]
+        public virtual void TestDynamicProperty2()
+        {
+            MemoryDictionaryConfigurationSource source = CreateSource();
+            IConfigurationManager manager = CreateManager(source);
+            StringProperties stringProperties = new StringProperties(manager);
+            IProperty<string, Dictionary<String, String>> property =
+                stringProperties.GetDictionaryProperty("map-value");
+            Console.WriteLine("property: " + property + "\n");
+            Assert.Null(property.Value);
+
+            Dictionary<string, string> mapValue = new Dictionary<string, string>()
+            {
+                { "k1", "v1" },
+                { "k2", "v2" }
+            };
+            source.SetPropertyValue("map-value", "k1:v1,k2:v2");
+            Thread.Sleep(10);
+            Console.WriteLine("property: " + property + "\n");
+            Assert.Equal(mapValue, property.Value);
+            Assert.NotSame(mapValue, property.Value);
+
+            mapValue = property.Value;
+
+            source.SetPropertyValue("map-value", "k1:v1,k2:v2");
+            Thread.Sleep(10);
+            Console.WriteLine("property: " + property + "\n");
+            Assert.Equal(mapValue, property.Value);
+            Assert.Same(mapValue, property.Value);
+
+            source.SetPropertyValue("map-value", "k3:v3,k4:v4");
+            Thread.Sleep(10);
+            Console.WriteLine("property: " + property + "\n");
+            Assert.NotEqual(mapValue, property.Value);
+            Assert.NotSame(mapValue, property.Value);
         }
     }
 }

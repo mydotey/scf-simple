@@ -1,5 +1,6 @@
 package org.mydotey.scf.source.stringproperty.memorymap;
 
+import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mydotey.scf.ConfigurationManager;
@@ -8,13 +9,16 @@ import org.mydotey.scf.Property;
 import org.mydotey.scf.PropertyConfig;
 import org.mydotey.scf.facade.ConfigurationManagers;
 import org.mydotey.scf.facade.ConfigurationProperties;
+import org.mydotey.scf.facade.StringProperties;
 import org.mydotey.scf.facade.StringPropertySources;
 import org.mydotey.scf.threading.TaskExecutor;
+
+import com.google.common.collect.ImmutableMap;
 
 /**
  * @author koqizhao
  *
- * May 22, 2018
+ *         May 22, 2018
  */
 public class MemoryMapConfigurationSourceTest {
 
@@ -83,6 +87,37 @@ public class MemoryMapConfigurationSourceTest {
         Thread.sleep(10);
         System.out.println("property: " + property + "\n");
         Assert.assertEquals("default", property.getValue());
+    }
+
+    @Test
+    public void testDynamicProperty2() throws InterruptedException {
+        MemoryMapConfigurationSource source = createSource();
+        ConfigurationManager manager = createManager(source);
+        StringProperties StringProperties = new StringProperties(manager);
+        Property<String, Map<String, String>> property = StringProperties.getMapProperty("map-value");
+        System.out.println("property: " + property + "\n");
+        Assert.assertNull(property.getValue());
+
+        Map<String, String> mapValue = ImmutableMap.of("k1", "v1", "k2", "v2");
+        source.setPropertyValue("map-value", "k1:v1,k2:v2");
+        Thread.sleep(10);
+        System.out.println("property: " + property + "\n");
+        Assert.assertEquals(mapValue, property.getValue());
+        Assert.assertNotSame(mapValue, property.getValue());
+
+        mapValue = property.getValue();
+
+        source.setPropertyValue("map-value", "k1:v1,k2:v2");
+        Thread.sleep(10);
+        System.out.println("property: " + property + "\n");
+        Assert.assertEquals(mapValue, property.getValue());
+        Assert.assertSame(mapValue, property.getValue());
+
+        source.setPropertyValue("map-value", "k3:v3,k4:v4");
+        Thread.sleep(10);
+        System.out.println("property: " + property + "\n");
+        Assert.assertNotEquals(mapValue, property.getValue());
+        Assert.assertNotSame(mapValue, property.getValue());
     }
 
 }

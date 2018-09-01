@@ -1,5 +1,6 @@
 package org.mydotey.scf.facade;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -305,22 +306,38 @@ public class StringValueProperties<K, M extends ConfigurationManager> {
 
     protected <V> Property<K, V> getProperty(K key, Class<V> valueType, V defaultValue,
             TypeConverter<String, V> valueConverter, Function<V, V> valueFilter) {
-        PropertyConfig<K, V> propertyConfig = createPropertyConfig(key, valueType, defaultValue, valueConverter,
-                valueFilter);
-        return _manager.getProperty(propertyConfig);
+        return getProperty(key, valueType, defaultValue, valueConverter, valueFilter, null);
     }
 
     protected <V> V getPropertyValue(K key, Class<V> valueType, V defaultValue, TypeConverter<String, V> valueConverter,
             Function<V, V> valueFilter) {
+        return getPropertyValue(key, valueType, defaultValue, valueConverter, valueFilter, null);
+    }
+
+    protected <V> Property<K, V> getProperty(K key, Class<V> valueType, V defaultValue,
+            TypeConverter<String, V> valueConverter, Function<V, V> valueFilter, Comparator<V> valueComparator) {
         PropertyConfig<K, V> propertyConfig = createPropertyConfig(key, valueType, defaultValue, valueConverter,
-                valueFilter);
+                valueFilter, valueComparator);
+        return _manager.getProperty(propertyConfig);
+    }
+
+    protected <V> V getPropertyValue(K key, Class<V> valueType, V defaultValue, TypeConverter<String, V> valueConverter,
+            Function<V, V> valueFilter, Comparator<V> valueComparator) {
+        PropertyConfig<K, V> propertyConfig = createPropertyConfig(key, valueType, defaultValue, valueConverter,
+                valueFilter, valueComparator);
         return _manager.getPropertyValue(propertyConfig);
     }
 
     protected <V> PropertyConfig<K, V> createPropertyConfig(K key, Class<V> valueType, V defaultValue,
             TypeConverter<String, V> valueConverter, Function<V, V> valueFilter) {
+        return createPropertyConfig(key, valueType, defaultValue, valueConverter, valueFilter, null);
+    }
+
+    protected <V> PropertyConfig<K, V> createPropertyConfig(K key, Class<V> valueType, V defaultValue,
+            TypeConverter<String, V> valueConverter, Function<V, V> valueFilter, Comparator<V> valueComparator) {
         return ConfigurationProperties.<K, V> newConfigBuilder().setKey(key).setValueType(valueType)
-                .setDefaultValue(defaultValue).addValueConverter(valueConverter).setValueFilter(valueFilter).build();
+                .setDefaultValue(defaultValue).addValueConverter(valueConverter)
+                .setValueFilter(valueFilter).setValueComparator(valueComparator).build();
     }
 
 }
