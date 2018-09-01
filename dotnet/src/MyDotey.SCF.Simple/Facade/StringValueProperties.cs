@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using sType = System.Type;
 
 using MyDotey.SCF.Type;
 using MyDotey.SCF.Type.String;
@@ -12,7 +13,7 @@ namespace MyDotey.SCF.Facade
      * May 21, 2018
      */
     public class StringValueProperties<K, M>
-        where M: IConfigurationManager
+        where M : IConfigurationManager
     {
         private M _manager;
 
@@ -55,6 +56,156 @@ namespace MyDotey.SCF.Facade
             return GetPropertyValue(key, defaultValue, StringInplaceConverter.Default, valueFilter);
         }
 
+        public virtual IProperty<K, sType> GetTypeProperty(K key)
+        {
+            return GetTypeProperty(key, null);
+        }
+
+        public virtual sType GetTypePropertyValue(K key)
+        {
+            return GetTypePropertyValue(key, null);
+        }
+
+        public virtual IProperty<K, sType> GetTypeProperty(K key, sType defaultValue)
+        {
+            return GetTypeProperty(key, defaultValue, null);
+        }
+
+        public virtual sType GetTypePropertyValue(K key, sType defaultValue)
+        {
+            return GetTypePropertyValue(key, defaultValue, null);
+        }
+
+        public virtual IProperty<K, sType> GetTypeProperty(K key, sType defaultValue, Func<sType, sType> valueFilter)
+        {
+            return GetProperty(key, defaultValue, StringToTypeConverter.Default, valueFilter);
+        }
+
+        public virtual sType GetTypePropertyValue(K key, sType defaultValue, Func<sType, sType> valueFilter)
+        {
+            return GetPropertyValue(key, defaultValue, StringToTypeConverter.Default, valueFilter);
+        }
+
+        public virtual IProperty<K, byte?> GetByteProperty(K key)
+        {
+            return GetByteProperty(key, null);
+        }
+
+        public virtual byte? GetBytePropertyValue(K key)
+        {
+            return GetBytePropertyValue(key, null);
+        }
+
+        public virtual IProperty<K, byte?> GetByteProperty(K key, byte? defaultValue)
+        {
+            return GetByteProperty(key, defaultValue, null);
+        }
+
+        public virtual byte? GetBytePropertyValue(K key, byte? defaultValue)
+        {
+            return GetBytePropertyValue(key, defaultValue, null);
+        }
+
+        public virtual IProperty<K, byte?> GetByteProperty(K key, byte? defaultValue, Func<byte?, byte?> valueFilter)
+        {
+            return GetProperty(key, defaultValue, StringToByteConverter.Default, valueFilter);
+        }
+
+        public virtual byte? GetBytePropertyValue(K key, byte? defaultValue, Func<byte?, byte?> valueFilter)
+        {
+            return GetPropertyValue(key, defaultValue, StringToByteConverter.Default, valueFilter);
+        }
+
+        public virtual IProperty<K, sbyte?> GetSByteProperty(K key)
+        {
+            return GetSByteProperty(key, null);
+        }
+
+        public virtual sbyte? GetSBytePropertyValue(K key)
+        {
+            return GetSBytePropertyValue(key, null);
+        }
+
+        public virtual IProperty<K, sbyte?> GetSByteProperty(K key, sbyte? defaultValue)
+        {
+            return GetSByteProperty(key, defaultValue, null);
+        }
+
+        public virtual sbyte? GetSBytePropertyValue(K key, sbyte? defaultValue)
+        {
+            return GetSBytePropertyValue(key, defaultValue, null);
+        }
+
+        public virtual IProperty<K, sbyte?> GetSByteProperty(K key, sbyte? defaultValue, Func<sbyte?, sbyte?> valueFilter)
+        {
+            return GetProperty(key, defaultValue, StringToSByteConverter.Default, valueFilter);
+        }
+
+        public virtual sbyte? GetSBytePropertyValue(K key, sbyte? defaultValue, Func<sbyte?, sbyte?> valueFilter)
+        {
+            return GetPropertyValue(key, defaultValue, StringToSByteConverter.Default, valueFilter);
+        }
+
+        public virtual IProperty<K, short?> GetShortProperty(K key)
+        {
+            return GetShortProperty(key, null);
+        }
+
+        public virtual short? GetShortPropertyValue(K key)
+        {
+            return GetShortPropertyValue(key, null);
+        }
+
+        public virtual IProperty<K, short?> GetShortProperty(K key, short? defaultValue)
+        {
+            return GetShortProperty(key, defaultValue, null);
+        }
+
+        public virtual short? GetShortPropertyValue(K key, short? defaultValue)
+        {
+            return GetShortPropertyValue(key, defaultValue, null);
+        }
+
+        public virtual IProperty<K, short?> GetShortProperty(K key, short? defaultValue, Func<short?, short?> valueFilter)
+        {
+            return GetProperty(key, defaultValue, StringToShortConverter.Default, valueFilter);
+        }
+
+        public virtual short? GetShortPropertyValue(K key, short? defaultValue, Func<short?, short?> valueFilter)
+        {
+            return GetPropertyValue(key, defaultValue, StringToShortConverter.Default, valueFilter);
+        }
+
+        public virtual IProperty<K, ushort?> GetUShortProperty(K key)
+        {
+            return GetUShortProperty(key, null);
+        }
+
+        public virtual ushort? GetUShortPropertyValue(K key)
+        {
+            return GetUShortPropertyValue(key, null);
+        }
+
+        public virtual IProperty<K, ushort?> GetUShortProperty(K key, ushort? defaultValue)
+        {
+            return GetUShortProperty(key, defaultValue, null);
+        }
+
+        public virtual ushort? GetUShortPropertyValue(K key, ushort? defaultValue)
+        {
+            return GetUShortPropertyValue(key, defaultValue, null);
+        }
+
+        public virtual IProperty<K, ushort?> GetUShortProperty(K key, ushort? defaultValue, Func<ushort?, ushort?> valueFilter)
+        {
+            return GetProperty(key, defaultValue, StringToUShortConverter.Default, valueFilter);
+        }
+
+        public virtual ushort? GetUShortPropertyValue(K key, ushort? defaultValue, Func<ushort?, ushort?> valueFilter)
+        {
+            return GetPropertyValue(key, defaultValue, StringToUShortConverter.Default, valueFilter);
+        }
+
         public virtual IProperty<K, int?> GetIntProperty(K key)
         {
             return GetIntProperty(key, null);
@@ -85,6 +236,36 @@ namespace MyDotey.SCF.Facade
             return GetPropertyValue(key, defaultValue, StringToIntConverter.Default, valueFilter);
         }
 
+        public virtual IProperty<K, uint?> GetUIntProperty(K key)
+        {
+            return GetUIntProperty(key, null);
+        }
+
+        public virtual uint? GetUIntPropertyValue(K key)
+        {
+            return GetUIntPropertyValue(key, null);
+        }
+
+        public virtual IProperty<K, uint?> GetUIntProperty(K key, uint? defaultValue)
+        {
+            return GetUIntProperty(key, defaultValue, null);
+        }
+
+        public virtual uint? GetUIntPropertyValue(K key, uint? defaultValue)
+        {
+            return GetUIntPropertyValue(key, defaultValue, null);
+        }
+
+        public virtual IProperty<K, uint?> GetUIntProperty(K key, uint? defaultValue, Func<uint?, uint?> valueFilter)
+        {
+            return GetProperty(key, defaultValue, StringToUIntConverter.Default, valueFilter);
+        }
+
+        public virtual uint? GetUIntPropertyValue(K key, uint? defaultValue, Func<uint?, uint?> valueFilter)
+        {
+            return GetPropertyValue(key, defaultValue, StringToUIntConverter.Default, valueFilter);
+        }
+
         public virtual IProperty<K, long?> GetLongProperty(K key)
         {
             return GetLongProperty(key, null);
@@ -113,6 +294,36 @@ namespace MyDotey.SCF.Facade
         public virtual long? GetLongPropertyValue(K key, long? defaultValue, Func<long?, long?> valueFilter)
         {
             return GetPropertyValue(key, defaultValue, StringToLongConverter.Default, valueFilter);
+        }
+
+        public virtual IProperty<K, ulong?> GetULongProperty(K key)
+        {
+            return GetULongProperty(key, null);
+        }
+
+        public virtual ulong? GetULongPropertyValue(K key)
+        {
+            return GetULongPropertyValue(key, null);
+        }
+
+        public virtual IProperty<K, ulong?> GetULongProperty(K key, ulong? defaultValue)
+        {
+            return GetULongProperty(key, defaultValue, null);
+        }
+
+        public virtual ulong? GetULongPropertyValue(K key, ulong? defaultValue)
+        {
+            return GetULongPropertyValue(key, defaultValue, null);
+        }
+
+        public virtual IProperty<K, ulong?> GetULongProperty(K key, ulong? defaultValue, Func<ulong?, ulong?> valueFilter)
+        {
+            return GetProperty(key, defaultValue, StringToULongConverter.Default, valueFilter);
+        }
+
+        public virtual ulong? GetULongPropertyValue(K key, ulong? defaultValue, Func<ulong?, ulong?> valueFilter)
+        {
+            return GetPropertyValue(key, defaultValue, StringToULongConverter.Default, valueFilter);
         }
 
         public virtual IProperty<K, float?> GetFloatProperty(K key)
@@ -173,6 +384,36 @@ namespace MyDotey.SCF.Facade
         public virtual double? GetDoublePropertyValue(K key, double? defaultValue, Func<double?, double?> valueFilter)
         {
             return GetPropertyValue(key, defaultValue, StringToDoubleConverter.Default, valueFilter);
+        }
+
+        public virtual IProperty<K, decimal?> GetDecimalProperty(K key)
+        {
+            return GetDecimalProperty(key, null);
+        }
+
+        public virtual decimal? GetDecimalPropertyValue(K key)
+        {
+            return GetDecimalPropertyValue(key, null);
+        }
+
+        public virtual IProperty<K, decimal?> GetDecimalProperty(K key, decimal? defaultValue)
+        {
+            return GetDecimalProperty(key, defaultValue, null);
+        }
+
+        public virtual decimal? GetDecimalPropertyValue(K key, decimal? defaultValue)
+        {
+            return GetDecimalPropertyValue(key, defaultValue, null);
+        }
+
+        public virtual IProperty<K, decimal?> GetDecimalProperty(K key, decimal? defaultValue, Func<decimal?, decimal?> valueFilter)
+        {
+            return GetProperty(key, defaultValue, StringToDecimalConverter.Default, valueFilter);
+        }
+
+        public virtual decimal? GetDecimalPropertyValue(K key, decimal? defaultValue, Func<decimal?, decimal?> valueFilter)
+        {
+            return GetPropertyValue(key, defaultValue, StringToDecimalConverter.Default, valueFilter);
         }
 
         public virtual IProperty<K, bool?> GetBooleanProperty(K key)

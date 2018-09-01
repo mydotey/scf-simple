@@ -53,8 +53,54 @@ public class StringPropertiesTest {
         Assert.assertEquals("ok", property.getValue());
     }
 
+    @SuppressWarnings("rawtypes")
     @Test
     public void testGetTypedProperties() {
+        StringProperties stringProperties = createStringProperties("test.properties");
+
+        Property<String, Byte> byteProperty = stringProperties.getByteProperty("byte-value");
+        System.out.println("byteProperty: " + byteProperty + "\n");
+        Byte byteExpected = Byte.valueOf("1");
+        Assert.assertEquals(byteExpected, byteProperty.getValue());
+
+        Property<String, Short> shortProperty = stringProperties.getShortProperty("short-value");
+        System.out.println("shortProperty: " + shortProperty + "\n");
+        Short shortExpected = Short.valueOf("1");
+        Assert.assertEquals(shortExpected, shortProperty.getValue());
+
+        Property<String, Integer> intProperty = stringProperties.getIntProperty("int-value");
+        System.out.println("intProperty: " + intProperty + "\n");
+        Integer intExpected = Integer.valueOf("1");
+        Assert.assertEquals(intExpected, intProperty.getValue());
+
+        Property<String, Long> longProperty = stringProperties.getLongProperty("long-value");
+        System.out.println("longProperty: " + longProperty + "\n");
+        Long longExpected = Long.valueOf("1");
+        Assert.assertEquals(longExpected, longProperty.getValue());
+
+        Property<String, Float> floatProperty = stringProperties.getFloatProperty("float-value");
+        System.out.println("floatProperty: " + floatProperty + "\n");
+        Float floatExpected = Float.valueOf("1.1");
+        Assert.assertEquals(floatExpected, floatProperty.getValue());
+
+        Property<String, Double> doubleProperty = stringProperties.getDoubleProperty("double-value");
+        System.out.println("doubleProperty: " + doubleProperty + "\n");
+        Double doubleExpected = Double.valueOf("1.1");
+        Assert.assertEquals(doubleExpected, doubleProperty.getValue());
+
+        Property<String, Boolean> booleanProperty = stringProperties.getBooleanProperty("boolean-value");
+        System.out.println("booleanProperty: " + booleanProperty + "\n");
+        Boolean booleanExpected = Boolean.valueOf("true");
+        Assert.assertEquals(booleanExpected, booleanProperty.getValue());
+
+        Property<String, Class> classProperty = stringProperties.getClassProperty("class-value");
+        System.out.println("classProperty: " + classProperty + "\n");
+        Class classExpected = StringPropertiesTest.class;
+        Assert.assertEquals(classExpected, classProperty.getValue());
+    }
+
+    @Test
+    public void testGetTypedProperties2() {
         StringProperties stringProperties = createStringProperties("test.properties");
         Property<String, Integer> property = stringProperties.getIntProperty("int-value");
         System.out.println("property: " + property + "\n");

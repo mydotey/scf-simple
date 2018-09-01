@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using sType = System.Type;
 
 using Xunit;
 using NLog;
@@ -25,7 +26,7 @@ namespace MyDotey.SCF.Facade
             config.LoggingRules.Add(new NLog.Config.LoggingRule("*", LogLevel.Trace, logconsole));
             NLog.LogManager.Configuration = config;
         }
- 
+
         protected virtual IConfigurationManager CreateManager(String fileName)
         {
             PropertiesFileConfigurationSourceConfig sourceConfig = StringPropertySources
@@ -62,6 +63,77 @@ namespace MyDotey.SCF.Facade
 
         [Fact]
         public virtual void TestGetTypedProperties()
+        {
+            StringProperties stringProperties = CreateStringProperties("test.properties");
+
+            IProperty<String, bool?> boolProperty = stringProperties.GetBooleanProperty("boolean-value");
+            Console.WriteLine("property: " + boolProperty + "\n");
+            bool? boolExpected = true;
+            Assert.Equal(boolExpected, boolProperty.Value);
+
+            IProperty<String, byte?> byteProperty = stringProperties.GetByteProperty("byte-value");
+            Console.WriteLine("property: " + byteProperty + "\n");
+            byte? byteExpected = 1;
+            Assert.Equal(byteExpected, byteProperty.Value);
+
+            IProperty<String, sbyte?> sbyteProperty = stringProperties.GetSByteProperty("sbyte-value");
+            Console.WriteLine("property: " + sbyteProperty + "\n");
+            sbyte? sbyteExpected = 1;
+            Assert.Equal(sbyteExpected, sbyteProperty.Value);
+
+            IProperty<String, short?> shortProperty = stringProperties.GetShortProperty("short-value");
+            Console.WriteLine("property: " + shortProperty + "\n");
+            short? shortExpected = 1;
+            Assert.Equal(shortExpected, shortProperty.Value);
+
+            IProperty<String, ushort?> ushortProperty = stringProperties.GetUShortProperty("ushort-value");
+            Console.WriteLine("property: " + ushortProperty + "\n");
+            ushort? ushortExpected = 1;
+            Assert.Equal(ushortExpected, ushortProperty.Value);
+
+            IProperty<String, int?> intProperty = stringProperties.GetIntProperty("int-value");
+            Console.WriteLine("property: " + intProperty + "\n");
+            int? intExpected = 1;
+            Assert.Equal(intExpected, intProperty.Value);
+
+            IProperty<String, uint?> uintProperty = stringProperties.GetUIntProperty("uint-value");
+            Console.WriteLine("property: " + uintProperty + "\n");
+            uint? uintExpected = 1;
+            Assert.Equal(uintExpected, uintProperty.Value);
+
+            IProperty<String, long?> longProperty = stringProperties.GetLongProperty("long-value");
+            Console.WriteLine("property: " + longProperty + "\n");
+            long? longExpected = 1;
+            Assert.Equal(longExpected, longProperty.Value);
+
+            IProperty<String, ulong?> ulongProperty = stringProperties.GetULongProperty("ulong-value");
+            Console.WriteLine("property: " + ulongProperty + "\n");
+            ulong? ulongExpected = 1;
+            Assert.Equal(ulongExpected, ulongProperty.Value);
+
+            IProperty<String, float?> floatProperty = stringProperties.GetFloatProperty("float-value");
+            Console.WriteLine("property: " + floatProperty + "\n");
+            float? floatExpected = 1.1F;
+            Assert.Equal(floatExpected, floatProperty.Value);
+
+            IProperty<String, double?> doubleProperty = stringProperties.GetDoubleProperty("double-value");
+            Console.WriteLine("property: " + doubleProperty + "\n");
+            double? doubleExpected = 1.1;
+            Assert.Equal(doubleExpected, doubleProperty.Value);
+
+            IProperty<String, decimal?> decimalProperty = stringProperties.GetDecimalProperty("decimal-value");
+            Console.WriteLine("property: " + decimalProperty + "\n");
+            decimal? decimalExpected = 1.1M;
+            Assert.Equal(decimalExpected, decimalProperty.Value);
+
+            IProperty<String, sType> typeProperty = stringProperties.GetTypeProperty("class-value");
+            Console.WriteLine("property: " + typeProperty + "\n");
+            sType typeExpected = typeof(StringPropertiesTest);
+            Assert.Equal(typeExpected, typeProperty.Value);
+        }
+
+        [Fact]
+        public virtual void TestGetTypedProperties2()
         {
             StringProperties stringProperties = CreateStringProperties("test.properties");
             IProperty<String, int?> property = stringProperties.GetIntProperty("int-value");
