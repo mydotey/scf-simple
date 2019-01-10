@@ -25,8 +25,10 @@ public class PropertiesFileConfigurationSource
         _properties = new Properties();
         try (InputStream is = Thread.currentThread().getContextClassLoader()
                 .getResourceAsStream(config.getFileName())) {
-            if (is == null)
+            if (is == null) {
                 LOGGER.warn("file not found: {}", config.getFileName());
+                return;
+            }
 
             _properties.load(is);
         } catch (Exception e) {

@@ -29,7 +29,10 @@ namespace MyDotey.SCF.Source.StringProperty.PropertiesFile
                 using (Stream @is = new FileStream(config.FileName, FileMode.Open))
                 {
                     if (@is == null)
+                    {
                         Logger.Warn("file not found: {0}", config.FileName);
+                        return;
+                    }
 
                     _properties.Load(@is, new UTF8Encoding(false));
                 }
