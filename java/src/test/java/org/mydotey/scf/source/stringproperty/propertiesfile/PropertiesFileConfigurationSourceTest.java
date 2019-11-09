@@ -8,7 +8,6 @@ import org.mydotey.scf.Property;
 import org.mydotey.scf.facade.ConfigurationManagers;
 import org.mydotey.scf.facade.StringProperties;
 import org.mydotey.scf.facade.StringPropertySources;
-import org.mydotey.scf.source.FileSourceType;
 
 /**
  * @author koqizhao
@@ -19,11 +18,10 @@ public class PropertiesFileConfigurationSourceTest {
 
     protected ConfigurationManager createManager(String fileName) {
         PropertiesFileConfigurationSourceConfig sourceConfig = StringPropertySources
-                .newPropertiesFileSourceConfigBuilder().setName("properties-source").setFileName(fileName)
-                .setType(FileSourceType.LOCAL_SYSTEM).build();
+            .newPropertiesFileSourceConfigBuilder().setName("properties-source").setFileName(fileName).build();
         System.out.println("source config: " + sourceConfig + "\n");
         ConfigurationManagerConfig managerConfig = ConfigurationManagers.newConfigBuilder().setName("test")
-                .addSource(1, StringPropertySources.newPropertiesFileSource(sourceConfig)).build();
+                .addSource(1, StringPropertySources.newLocalPropertiesFileSource(sourceConfig)).build();
         System.out.println("manager config: " + managerConfig + "\n");
         return ConfigurationManagers.newManager(managerConfig);
     }
@@ -35,7 +33,7 @@ public class PropertiesFileConfigurationSourceTest {
 
     @Test
     public void testGetProperties() {
-        StringProperties stringProperties = createStringProperties("test.properties");
+        StringProperties stringProperties = createStringProperties("local-test.properties");
         Property<String, String> property = stringProperties.getStringProperty("not-exist");
         System.out.println("property: " + property + "\n");
         Assert.assertEquals(null, property.getValue());
@@ -44,7 +42,7 @@ public class PropertiesFileConfigurationSourceTest {
         System.out.println("property: " + property + "\n");
         Assert.assertEquals("default", property.getValue());
 
-        property = stringProperties.getStringProperty("local-system-exist", "default");
+        property = stringProperties.getStringProperty("exist", "default");
         System.out.println("property: " + property + "\n");
         Assert.assertEquals("ok", property.getValue());
     }

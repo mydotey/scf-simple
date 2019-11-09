@@ -5,6 +5,7 @@ import org.mydotey.scf.source.stringproperty.cascaded.CascadedConfigurationSourc
 import org.mydotey.scf.source.stringproperty.cascaded.CascadedConfigurationSourceConfig;
 import org.mydotey.scf.source.stringproperty.environmentvariable.EnvironmentVariableConfigurationSource;
 import org.mydotey.scf.source.stringproperty.memorymap.MemoryMapConfigurationSource;
+import org.mydotey.scf.source.stringproperty.propertiesfile.LocalPropertiesFileConfigurationSource;
 import org.mydotey.scf.source.stringproperty.propertiesfile.PropertiesFileConfigurationSource;
 import org.mydotey.scf.source.stringproperty.propertiesfile.PropertiesFileConfigurationSourceConfig;
 import org.mydotey.scf.source.stringproperty.systemproperties.SystemPropertiesConfigurationSource;
@@ -42,6 +43,11 @@ public class StringPropertySources {
     public static PropertiesFileConfigurationSource newPropertiesFileSource(
             PropertiesFileConfigurationSourceConfig config) {
         return new PropertiesFileConfigurationSource(config);
+    }
+
+    public static LocalPropertiesFileConfigurationSource newLocalPropertiesFileSource(
+            PropertiesFileConfigurationSourceConfig config) {
+        return new LocalPropertiesFileConfigurationSource(config);
     }
 
     public static <C extends ConfigurationSourceConfig> CascadedConfigurationSourceConfig.Builder<C> newCascadedSourceConfigBuilder() {

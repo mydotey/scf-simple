@@ -1,11 +1,9 @@
 package org.mydotey.scf.source.stringproperty.propertiesfile;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import org.mydotey.scf.source.FileSourceType;
 import org.mydotey.scf.source.stringproperty.StringPropertyConfigurationSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,15 +24,7 @@ public class PropertiesFileConfigurationSource
         super(config);
 
         _properties = new Properties();
-        InputStream is = null;
-        try {
-            if (config.getType() == FileSourceType.CLASS_PATH) {
-                is = Thread.currentThread().getContextClassLoader()
-                    .getResourceAsStream(config.getFileName());
-            } else if(config.getType() == FileSourceType.LOCAL_SYSTEM) {
-                is = new FileInputStream(config.getFileName());
-            }
-
+        try (InputStream is = loadFile(config.getFileName())) {
             if (is == null) {
                 LOGGER.warn("file not found: {}", config);
                 return;
@@ -43,14 +33,11 @@ public class PropertiesFileConfigurationSource
             _properties.load(is);
         } catch (Exception e) {
             LOGGER.warn("failed to load properties file: " + config, e);
-        } finally {
-            try {
-                if (is != null)
-                    is.close();
-            } catch (IOException e) {
-
-            }
         }
+    }
+
+    protected InputStream loadFile(String fileName) throws IOException {
+        return Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName);
     }
 
     @Override
