@@ -1,0 +1,19 @@
+[package]
+name = "scf-simple"
+version = "0.1.0"
+authors = ["Qiang Zhao <koqizhao@outlook.com>"]
+edition = "2018"
+description = "Simple Configuration Facade"
+license = "Apache-2.0"
+homepage = "https://github.com/mydotey/scf-simple/tree/master/rust"
+repository = "https://github.com/mydotey/scf-simple"
+readme = "README.md"
+keywords = ["config", "configuration", "config-manager", "setting", "property"]
+categories = ["config"]
+
+[dependencies]
+scf-core = "1.2.1"
+log = "0.4.8"
+
+[dev-dependencies]
+log4rs = "0.8.3"
