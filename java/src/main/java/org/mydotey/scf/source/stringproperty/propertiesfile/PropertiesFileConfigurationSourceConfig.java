@@ -25,7 +25,7 @@ public class PropertiesFileConfigurationSourceConfig extends DefaultConfiguratio
     }
 
     public static class Builder extends
-            DefaultConfigurationSourceConfig.DefaultAbstractBuilder<Builder, PropertiesFileConfigurationSourceConfig> {
+        DefaultConfigurationSourceConfig.DefaultAbstractBuilder<Builder, PropertiesFileConfigurationSourceConfig> {
 
         @Override
         protected PropertiesFileConfigurationSourceConfig newConfig() {
@@ -34,6 +34,9 @@ public class PropertiesFileConfigurationSourceConfig extends DefaultConfiguratio
 
         public Builder setFileName(String fileName) {
             getConfig()._fileName = fileName;
+            if (getConfig().getName() == null)
+                setName(getConfig().getFileName());
+
             return this;
         }
 

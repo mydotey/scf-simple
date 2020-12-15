@@ -1,6 +1,7 @@
 package org.mydotey.scf.filter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
@@ -17,6 +18,11 @@ import java.util.function.Function;
 public class PipelineValueFilter<V> implements Function<V, V> {
 
     private List<Function<V, V>> _filters;
+
+    @SuppressWarnings("unchecked")
+    public PipelineValueFilter(Function<V, V>... filters) {
+        this(Arrays.asList(filters));
+    }
 
     public PipelineValueFilter(List<Function<V, V>> filters) {
         Objects.requireNonNull(filters, "filters is null");

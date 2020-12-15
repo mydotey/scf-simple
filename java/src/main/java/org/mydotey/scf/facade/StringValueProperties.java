@@ -6,9 +6,11 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 
+import org.mydotey.java.ObjectExtension;
 import org.mydotey.scf.ConfigurationManager;
 import org.mydotey.scf.Property;
 import org.mydotey.scf.PropertyConfig;
+import org.mydotey.scf.filter.RangeValueConfig;
 import org.mydotey.scf.type.TypeConverter;
 import org.mydotey.scf.type.string.StringInplaceConverter;
 import org.mydotey.scf.type.string.StringToBooleanConverter;
@@ -90,11 +92,11 @@ public class StringValueProperties<K, M extends ConfigurationManager> {
     }
 
     public Property<K, Byte> getByteProperty(K key) {
-        return getByteProperty(key, null);
+        return getByteProperty(key, ObjectExtension.<Byte>NULL());
     }
 
     public Byte getBytePropertyValue(K key) {
-        return getBytePropertyValue(key, null);
+        return getBytePropertyValue(key, ObjectExtension.<Byte>NULL());
     }
 
     public Property<K, Byte> getByteProperty(K key, Byte defaultValue) {
@@ -103,6 +105,14 @@ public class StringValueProperties<K, M extends ConfigurationManager> {
 
     public Byte getBytePropertyValue(K key, Byte defaultValue) {
         return getBytePropertyValue(key, defaultValue, null);
+    }
+
+    public Property<K, Byte> getByteProperty(K key, RangeValueConfig<Byte> rangeValueConfig) {
+        return getProperty(key, rangeValueConfig, StringToByteConverter.DEFAULT);
+    }
+
+    public Byte getBytePropertyValue(K key, RangeValueConfig<Byte> rangeValueConfig) {
+        return getPropertyValue(key, rangeValueConfig, StringToByteConverter.DEFAULT);
     }
 
     public Property<K, Byte> getByteProperty(K key, Byte defaultValue, Function<Byte, Byte> valueFilter) {
@@ -114,11 +124,11 @@ public class StringValueProperties<K, M extends ConfigurationManager> {
     }
 
     public Property<K, Short> getShortProperty(K key) {
-        return getShortProperty(key, null);
+        return getShortProperty(key, ObjectExtension.<Short>NULL());
     }
 
     public Short getShortPropertyValue(K key) {
-        return getShortPropertyValue(key, null);
+        return getShortPropertyValue(key, ObjectExtension.<Short>NULL());
     }
 
     public Property<K, Short> getShortProperty(K key, Short defaultValue) {
@@ -127,6 +137,14 @@ public class StringValueProperties<K, M extends ConfigurationManager> {
 
     public Short getShortPropertyValue(K key, Short defaultValue) {
         return getShortPropertyValue(key, defaultValue, null);
+    }
+
+    public Property<K, Short> getShortProperty(K key, RangeValueConfig<Short> rangeValueConfig) {
+        return getProperty(key, rangeValueConfig, StringToShortConverter.DEFAULT);
+    }
+
+    public Short getShortPropertyValue(K key, RangeValueConfig<Short> rangeValueConfig) {
+        return getPropertyValue(key, rangeValueConfig, StringToShortConverter.DEFAULT);
     }
 
     public Property<K, Short> getShortProperty(K key, Short defaultValue, Function<Short, Short> valueFilter) {
@@ -138,11 +156,11 @@ public class StringValueProperties<K, M extends ConfigurationManager> {
     }
 
     public Property<K, Integer> getIntProperty(K key) {
-        return getIntProperty(key, null);
+        return getIntProperty(key, ObjectExtension.<Integer>NULL());
     }
 
     public Integer getIntPropertyValue(K key) {
-        return getIntPropertyValue(key, null);
+        return getIntPropertyValue(key, ObjectExtension.<Integer>NULL());
     }
 
     public Property<K, Integer> getIntProperty(K key, Integer defaultValue) {
@@ -151,6 +169,14 @@ public class StringValueProperties<K, M extends ConfigurationManager> {
 
     public Integer getIntPropertyValue(K key, Integer defaultValue) {
         return getIntPropertyValue(key, defaultValue, null);
+    }
+
+    public Property<K, Integer> getIntProperty(K key, RangeValueConfig<Integer> rangeValueConfig) {
+        return getProperty(key, rangeValueConfig, StringToIntConverter.DEFAULT);
+    }
+
+    public Integer getIntPropertyValue(K key, RangeValueConfig<Integer> rangeValueConfig) {
+        return getPropertyValue(key, rangeValueConfig, StringToIntConverter.DEFAULT);
     }
 
     public Property<K, Integer> getIntProperty(K key, Integer defaultValue, Function<Integer, Integer> valueFilter) {
@@ -162,11 +188,11 @@ public class StringValueProperties<K, M extends ConfigurationManager> {
     }
 
     public Property<K, Long> getLongProperty(K key) {
-        return getLongProperty(key, null);
+        return getLongProperty(key, ObjectExtension.<Long>NULL());
     }
 
     public Long getLongPropertyValue(K key) {
-        return getLongPropertyValue(key, null);
+        return getLongPropertyValue(key, ObjectExtension.<Long>NULL());
     }
 
     public Property<K, Long> getLongProperty(K key, Long defaultValue) {
@@ -175,6 +201,14 @@ public class StringValueProperties<K, M extends ConfigurationManager> {
 
     public Long getLongPropertyValue(K key, Long defaultValue) {
         return getLongPropertyValue(key, defaultValue, null);
+    }
+
+    public Property<K, Long> getLongProperty(K key, RangeValueConfig<Long> rangeValueConfig) {
+        return getProperty(key, rangeValueConfig, StringToLongConverter.DEFAULT);
+    }
+
+    public Long getLongPropertyValue(K key, RangeValueConfig<Long> rangeValueConfig) {
+        return getPropertyValue(key, rangeValueConfig, StringToLongConverter.DEFAULT);
     }
 
     public Property<K, Long> getLongProperty(K key, Long defaultValue, Function<Long, Long> valueFilter) {
@@ -186,11 +220,11 @@ public class StringValueProperties<K, M extends ConfigurationManager> {
     }
 
     public Property<K, Float> getFloatProperty(K key) {
-        return getFloatProperty(key, null);
+        return getFloatProperty(key, ObjectExtension.<Float>NULL());
     }
 
     public Float getFloatPropertyValue(K key) {
-        return getFloatPropertyValue(key, null);
+        return getFloatPropertyValue(key, ObjectExtension.<Float>NULL());
     }
 
     public Property<K, Float> getFloatProperty(K key, Float defaultValue) {
@@ -199,6 +233,14 @@ public class StringValueProperties<K, M extends ConfigurationManager> {
 
     public Float getFloatPropertyValue(K key, Float defaultValue) {
         return getFloatPropertyValue(key, defaultValue, null);
+    }
+
+    public Property<K, Float> getFloatProperty(K key, RangeValueConfig<Float> rangeValueConfig) {
+        return getProperty(key, rangeValueConfig, StringToFloatConverter.DEFAULT);
+    }
+
+    public Float getFloatPropertyValue(K key, RangeValueConfig<Float> rangeValueConfig) {
+        return getPropertyValue(key, rangeValueConfig, StringToFloatConverter.DEFAULT);
     }
 
     public Property<K, Float> getFloatProperty(K key, Float defaultValue, Function<Float, Float> valueFilter) {
@@ -210,11 +252,11 @@ public class StringValueProperties<K, M extends ConfigurationManager> {
     }
 
     public Property<K, Double> getDoubleProperty(K key) {
-        return getDoubleProperty(key, null);
+        return getDoubleProperty(key, ObjectExtension.<Double>NULL());
     }
 
     public Double getDoublePropertyValue(K key) {
-        return getDoublePropertyValue(key, null);
+        return getDoublePropertyValue(key, ObjectExtension.<Double>NULL());
     }
 
     public Property<K, Double> getDoubleProperty(K key, Double defaultValue) {
@@ -223,6 +265,14 @@ public class StringValueProperties<K, M extends ConfigurationManager> {
 
     public Double getDoublePropertyValue(K key, Double defaultValue) {
         return getDoublePropertyValue(key, defaultValue, null);
+    }
+
+    public Property<K, Double> getDoubleProperty(K key, RangeValueConfig<Double> rangeValueConfig) {
+        return getProperty(key, rangeValueConfig, StringToDoubleConverter.DEFAULT);
+    }
+
+    public Double getDoublePropertyValue(K key, RangeValueConfig<Double> rangeValueConfig) {
+        return getPropertyValue(key, rangeValueConfig, StringToDoubleConverter.DEFAULT);
     }
 
     public Property<K, Double> getDoubleProperty(K key, Double defaultValue, Function<Double, Double> valueFilter) {
@@ -250,7 +300,7 @@ public class StringValueProperties<K, M extends ConfigurationManager> {
     }
 
     public Property<K, Boolean> getBooleanProperty(K key, Boolean defaultValue,
-            Function<Boolean, Boolean> valueFilter) {
+        Function<Boolean, Boolean> valueFilter) {
         return getProperty(key, defaultValue, StringToBooleanConverter.DEFAULT, valueFilter);
     }
 
@@ -283,7 +333,7 @@ public class StringValueProperties<K, M extends ConfigurationManager> {
     }
 
     public <V> Property<K, List<V>> getListProperty(K key, List<V> defaultValue,
-            TypeConverter<String, V> typeConverter) {
+        TypeConverter<String, V> typeConverter) {
         return getListProperty(key, defaultValue, typeConverter, null);
     }
 
@@ -292,12 +342,12 @@ public class StringValueProperties<K, M extends ConfigurationManager> {
     }
 
     public <V> Property<K, List<V>> getListProperty(K key, List<V> defaultValue, TypeConverter<String, V> typeConverter,
-            Function<List<V>, List<V>> valueFilter) {
+        Function<List<V>, List<V>> valueFilter) {
         return getProperty(key, defaultValue, new StringToListConverter<>(typeConverter), valueFilter);
     }
 
     public <V> List<V> getListPropertyValue(K key, List<V> defaultValue, TypeConverter<String, V> typeConverter,
-            Function<List<V>, List<V>> valueFilter) {
+        Function<List<V>, List<V>> valueFilter) {
         return getPropertyValue(key, defaultValue, new StringToListConverter<>(typeConverter), valueFilter);
     }
 
@@ -318,36 +368,36 @@ public class StringValueProperties<K, M extends ConfigurationManager> {
     }
 
     public <MK, MV> Property<K, Map<MK, MV>> getMapProperty(K key, TypeConverter<String, MK> keyConverter,
-            TypeConverter<String, MV> valueConverter) {
+        TypeConverter<String, MV> valueConverter) {
         return getMapProperty(key, null, keyConverter, valueConverter);
     }
 
     public <MK, MV> Map<MK, MV> getMapPropertyValue(K key, TypeConverter<String, MK> keyConverter,
-            TypeConverter<String, MV> valueConverter) {
+        TypeConverter<String, MV> valueConverter) {
         return getMapPropertyValue(key, null, keyConverter, valueConverter);
     }
 
     public <MK, MV> Property<K, Map<MK, MV>> getMapProperty(K key, Map<MK, MV> defaultMValue,
-            TypeConverter<String, MK> keyConverter, TypeConverter<String, MV> valueConverter) {
+        TypeConverter<String, MK> keyConverter, TypeConverter<String, MV> valueConverter) {
         return getMapProperty(key, defaultMValue, keyConverter, valueConverter, null);
     }
 
     public <MK, MV> Map<MK, MV> getMapPropertyValue(K key, Map<MK, MV> defaultMValue,
-            TypeConverter<String, MK> keyConverter, TypeConverter<String, MV> valueConverter) {
+        TypeConverter<String, MK> keyConverter, TypeConverter<String, MV> valueConverter) {
         return getMapPropertyValue(key, defaultMValue, keyConverter, valueConverter, null);
     }
 
     public <MK, MV> Property<K, Map<MK, MV>> getMapProperty(K key, Map<MK, MV> defaultMValue,
-            TypeConverter<String, MK> keyConverter, TypeConverter<String, MV> valueConverter,
-            Function<Map<MK, MV>, Map<MK, MV>> valueFilter) {
+        TypeConverter<String, MK> keyConverter, TypeConverter<String, MV> valueConverter,
+        Function<Map<MK, MV>, Map<MK, MV>> valueFilter) {
         return getProperty(key, defaultMValue, new StringToMapConverter<>(keyConverter, valueConverter), valueFilter);
     }
 
     public <MK, MV> Map<MK, MV> getMapPropertyValue(K key, Map<MK, MV> defaultValue,
-            TypeConverter<String, MK> keyConverter, TypeConverter<String, MV> valueConverter,
-            Function<Map<MK, MV>, Map<MK, MV>> valueFilter) {
+        TypeConverter<String, MK> keyConverter, TypeConverter<String, MV> valueConverter,
+        Function<Map<MK, MV>, Map<MK, MV>> valueFilter) {
         return getPropertyValue(key, defaultValue, new StringToMapConverter<>(keyConverter, valueConverter),
-                valueFilter);
+            valueFilter);
     }
 
     public <V> Property<K, V> getProperty(K key, TypeConverter<String, V> valueConverter) {
@@ -366,54 +416,71 @@ public class StringValueProperties<K, M extends ConfigurationManager> {
         return getPropertyValue(key, defaultValue, valueConverter, null);
     }
 
+    public <V extends Comparable<V>> Property<K, V> getProperty(K key, RangeValueConfig<V> rangeValueConfig,
+        TypeConverter<String, V> valueConverter) {
+        Objects.requireNonNull(rangeValueConfig, "rangeValueConfig is null");
+        Objects.requireNonNull(valueConverter, "valueConverter is null");
+
+        return getProperty(key, rangeValueConfig.defaultValue(), valueConverter, rangeValueConfig.toRangeValueFilter());
+    }
+
+    public <V extends Comparable<V>> V getPropertyValue(K key, RangeValueConfig<V> rangeValueConfig,
+        TypeConverter<String, V> valueConverter) {
+        Objects.requireNonNull(rangeValueConfig, "rangeValueConfig is null");
+        Objects.requireNonNull(valueConverter, "valueConverter is null");
+
+        return getPropertyValue(key, rangeValueConfig.defaultValue(), valueConverter,
+            rangeValueConfig.toRangeValueFilter());
+    }
+
     public <V> Property<K, V> getProperty(K key, V defaultValue, TypeConverter<String, V> valueConverter,
-            Function<V, V> valueFilter) {
+        Function<V, V> valueFilter) {
         Objects.requireNonNull(valueConverter, "valueConverter is null");
 
         return getProperty(key, valueConverter.getTargetType(), defaultValue, valueConverter, valueFilter);
     }
 
     public <V> V getPropertyValue(K key, V defaultValue, TypeConverter<String, V> valueConverter,
-            Function<V, V> valueFilter) {
+        Function<V, V> valueFilter) {
         Objects.requireNonNull(valueConverter, "valueConverter is null");
 
         return getPropertyValue(key, valueConverter.getTargetType(), defaultValue, valueConverter, valueFilter);
     }
 
     public <V> Property<K, V> getProperty(K key, Class<V> valueType, V defaultValue,
-            TypeConverter<String, V> valueConverter, Function<V, V> valueFilter) {
+        TypeConverter<String, V> valueConverter, Function<V, V> valueFilter) {
         return getProperty(key, valueType, defaultValue, valueConverter, valueFilter, null);
     }
 
     public <V> V getPropertyValue(K key, Class<V> valueType, V defaultValue, TypeConverter<String, V> valueConverter,
-            Function<V, V> valueFilter) {
+        Function<V, V> valueFilter) {
         return getPropertyValue(key, valueType, defaultValue, valueConverter, valueFilter, null);
     }
 
     public <V> Property<K, V> getProperty(K key, Class<V> valueType, V defaultValue,
-            TypeConverter<String, V> valueConverter, Function<V, V> valueFilter, Comparator<V> valueComparator) {
+        TypeConverter<String, V> valueConverter, Function<V, V> valueFilter, Comparator<V> valueComparator) {
         PropertyConfig<K, V> propertyConfig = createPropertyConfig(key, valueType, defaultValue, valueConverter,
-                valueFilter, valueComparator);
+            valueFilter, valueComparator);
         return _manager.getProperty(propertyConfig);
     }
 
     public <V> V getPropertyValue(K key, Class<V> valueType, V defaultValue, TypeConverter<String, V> valueConverter,
-            Function<V, V> valueFilter, Comparator<V> valueComparator) {
+        Function<V, V> valueFilter, Comparator<V> valueComparator) {
         PropertyConfig<K, V> propertyConfig = createPropertyConfig(key, valueType, defaultValue, valueConverter,
-                valueFilter, valueComparator);
+            valueFilter, valueComparator);
         return _manager.getPropertyValue(propertyConfig);
     }
 
     protected <V> PropertyConfig<K, V> createPropertyConfig(K key, Class<V> valueType, V defaultValue,
-            TypeConverter<String, V> valueConverter, Function<V, V> valueFilter) {
+        TypeConverter<String, V> valueConverter, Function<V, V> valueFilter) {
         return createPropertyConfig(key, valueType, defaultValue, valueConverter, valueFilter, null);
     }
 
     protected <V> PropertyConfig<K, V> createPropertyConfig(K key, Class<V> valueType, V defaultValue,
-            TypeConverter<String, V> valueConverter, Function<V, V> valueFilter, Comparator<V> valueComparator) {
-        return ConfigurationProperties.<K, V> newConfigBuilder().setKey(key).setValueType(valueType)
-                .setDefaultValue(defaultValue).addValueConverter(valueConverter).setValueFilter(valueFilter)
-                .setValueComparator(valueComparator).build();
+        TypeConverter<String, V> valueConverter, Function<V, V> valueFilter, Comparator<V> valueComparator) {
+        return ConfigurationProperties.<K, V>newConfigBuilder().setKey(key).setValueType(valueType)
+            .setDefaultValue(defaultValue).addValueConverter(valueConverter).setValueFilter(valueFilter)
+            .setValueComparator(valueComparator).build();
     }
 
 }

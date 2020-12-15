@@ -1,26 +1,24 @@
-package org.mydotey.scf.source.stringproperty.cascaded;
+package org.mydotey.scf.source.cascaded;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import org.mydotey.scf.ConfigurationSourceConfig;
+import org.mydotey.scf.ConfigurationSource;
 import org.mydotey.scf.DefaultConfigurationSourceConfig;
-import org.mydotey.scf.source.stringproperty.StringPropertyConfigurationSource;
 
 /**
  * @author koqizhao
  *
  * May 17, 2018
  */
-public class CascadedConfigurationSourceConfig<C extends ConfigurationSourceConfig>
-        extends DefaultConfigurationSourceConfig {
+public class CascadedConfigurationSourceConfig extends DefaultConfigurationSourceConfig {
 
     private String _keySeparator;
     private List<String> _cascadedFactors;
 
-    private StringPropertyConfigurationSource<C> _source;
+    private ConfigurationSource _source;
 
     protected CascadedConfigurationSourceConfig() {
 
@@ -34,14 +32,13 @@ public class CascadedConfigurationSourceConfig<C extends ConfigurationSourceConf
         return _cascadedFactors;
     }
 
-    public StringPropertyConfigurationSource<C> getSource() {
+    public ConfigurationSource getSource() {
         return _source;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public CascadedConfigurationSourceConfig<C> clone() {
-        CascadedConfigurationSourceConfig<C> copy = (CascadedConfigurationSourceConfig<C>) super.clone();
+    public CascadedConfigurationSourceConfig clone() {
+        CascadedConfigurationSourceConfig copy = (CascadedConfigurationSourceConfig) super.clone();
 
         if (_cascadedFactors != null)
             copy._cascadedFactors = Collections.unmodifiableList(new ArrayList<>(_cascadedFactors));
@@ -52,23 +49,23 @@ public class CascadedConfigurationSourceConfig<C extends ConfigurationSourceConf
     @Override
     public String toString() {
         return String.format("%s { name: %s, keySeparator: %s, cascadedFactors: %s }", getClass().getSimpleName(),
-                getName(), _keySeparator, _cascadedFactors);
+            getName(), _keySeparator, _cascadedFactors);
     }
 
-    public static class Builder<C extends ConfigurationSourceConfig> extends
-            DefaultConfigurationSourceConfig.DefaultAbstractBuilder<Builder<C>, CascadedConfigurationSourceConfig<C>> {
+    public static class Builder extends
+        DefaultConfigurationSourceConfig.DefaultAbstractBuilder<Builder, CascadedConfigurationSourceConfig> {
 
         @Override
-        protected CascadedConfigurationSourceConfig<C> newConfig() {
-            return new CascadedConfigurationSourceConfig<>();
+        protected CascadedConfigurationSourceConfig newConfig() {
+            return new CascadedConfigurationSourceConfig();
         }
 
-        public Builder<C> setKeySeparator(String keySeparator) {
+        public Builder setKeySeparator(String keySeparator) {
             getConfig()._keySeparator = keySeparator;
             return this;
         }
 
-        public Builder<C> addCascadedFactor(String cascadedFactor) {
+        public Builder addCascadedFactor(String cascadedFactor) {
             if (cascadedFactor == null)
                 return this;
 
@@ -83,12 +80,14 @@ public class CascadedConfigurationSourceConfig<C extends ConfigurationSourceConf
             return this;
         }
 
-        public Builder<C> setSource(StringPropertyConfigurationSource<C> source) {
+        public Builder setSource(ConfigurationSource source) {
             getConfig()._source = source;
+            if (getConfig().getName() == null)
+                setName("cascaded-" + getConfig().getSource().getConfig().getName());
             return this;
         }
 
-        public Builder<C> addCascadedFactors(List<String> cascadedFactors) {
+        public Builder addCascadedFactors(List<String> cascadedFactors) {
             if (cascadedFactors != null)
                 cascadedFactors.forEach(this::addCascadedFactor);
 
@@ -96,7 +95,7 @@ public class CascadedConfigurationSourceConfig<C extends ConfigurationSourceConf
         }
 
         @Override
-        public CascadedConfigurationSourceConfig<C> build() {
+        public CascadedConfigurationSourceConfig build() {
             Objects.requireNonNull(getConfig()._keySeparator, "keySeparator is null");
             getConfig()._keySeparator = getConfig().getKeySeparator().trim();
             if (getConfig().getKeySeparator().isEmpty())
