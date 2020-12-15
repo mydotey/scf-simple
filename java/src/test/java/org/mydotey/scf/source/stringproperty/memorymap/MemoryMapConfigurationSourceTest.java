@@ -10,7 +10,7 @@ import org.mydotey.scf.PropertyConfig;
 import org.mydotey.scf.facade.ConfigurationManagers;
 import org.mydotey.scf.facade.ConfigurationProperties;
 import org.mydotey.scf.facade.StringProperties;
-import org.mydotey.scf.facade.StringPropertySources;
+import org.mydotey.scf.facade.SimpleConfigurationSources;
 import org.mydotey.scf.threading.TaskExecutor;
 
 import com.google.common.collect.ImmutableMap;
@@ -23,7 +23,7 @@ import com.google.common.collect.ImmutableMap;
 public class MemoryMapConfigurationSourceTest {
 
     protected MemoryMapConfigurationSource createSource() {
-        MemoryMapConfigurationSource source = StringPropertySources.newMemoryMapSource("memory-map");
+        MemoryMapConfigurationSource source = SimpleConfigurationSources.newMemoryMapSource("memory-map");
         source.setPropertyValue("exist", "ok");
         return source;
     }

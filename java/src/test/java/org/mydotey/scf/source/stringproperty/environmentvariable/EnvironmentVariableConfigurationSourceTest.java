@@ -8,7 +8,7 @@ import org.mydotey.scf.Property;
 import org.mydotey.scf.PropertyConfig;
 import org.mydotey.scf.facade.ConfigurationManagers;
 import org.mydotey.scf.facade.ConfigurationProperties;
-import org.mydotey.scf.facade.StringPropertySources;
+import org.mydotey.scf.facade.SimpleConfigurationSources;
 
 /**
  * @author koqizhao
@@ -19,7 +19,7 @@ public class EnvironmentVariableConfigurationSourceTest {
 
     protected ConfigurationManager createManager() {
         ConfigurationManagerConfig managerConfig = ConfigurationManagers.newConfigBuilder().setName("test")
-                .addSource(1, StringPropertySources.newEnvironmentVariableSource("environment-variable")).build();
+                .addSource(1, SimpleConfigurationSources.newEnvironmentVariableSource("environment-variable")).build();
         System.out.println("manager config: " + managerConfig + "\n");
         return ConfigurationManagers.newManager(managerConfig);
     }

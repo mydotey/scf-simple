@@ -9,7 +9,7 @@ import org.mydotey.scf.Property;
 import org.mydotey.scf.PropertyConfig;
 import org.mydotey.scf.facade.ConfigurationManagers;
 import org.mydotey.scf.facade.ConfigurationProperties;
-import org.mydotey.scf.facade.StringPropertySources;
+import org.mydotey.scf.facade.SimpleConfigurationSources;
 import org.mydotey.scf.source.stringproperty.systemproperties.SystemPropertiesConfigurationSource;
 import org.mydotey.scf.threading.TaskExecutor;
 
@@ -21,14 +21,14 @@ import org.mydotey.scf.threading.TaskExecutor;
 public class CascadedConfigurationSourceTest {
 
     protected SystemPropertiesConfigurationSource createSource() {
-        return StringPropertySources.newSystemPropertiesSource("system-properties");
+        return SimpleConfigurationSources.newSystemPropertiesSource("system-properties");
     }
 
     protected ConfigurationManager createManager(SystemPropertiesConfigurationSource source) {
-        CascadedConfigurationSourceConfig sourceConfig = StringPropertySources
+        CascadedConfigurationSourceConfig sourceConfig = SimpleConfigurationSources
             .newCascadedSourceConfigBuilder().setName("cascaded-system-properties").setKeySeparator(".")
             .addCascadedFactor("part1").addCascadedFactor("part2").setSource(source).build();
-        CascadedConfigurationSource cascadedSource = StringPropertySources
+        CascadedConfigurationSource cascadedSource = SimpleConfigurationSources
             .newCascadedSource(sourceConfig);
         TaskExecutor taskExecutor = new TaskExecutor(1);
         ConfigurationManagerConfig managerConfig = ConfigurationManagers.newConfigBuilder().setName("test")
@@ -38,7 +38,7 @@ public class CascadedConfigurationSourceTest {
     }
 
     protected ConfigurationManager createKeyCachedManager(SystemPropertiesConfigurationSource source) {
-        CascadedConfigurationSourceConfig sourceConfig = StringPropertySources
+        CascadedConfigurationSourceConfig sourceConfig = SimpleConfigurationSources
             .newCascadedSourceConfigBuilder().setName("cascaded-system-properties").setKeySeparator(".")
             .addCascadedFactor("part1").addCascadedFactor("part2").setSource(source).build();
         CascadedConfigurationSource cascadedSource = new KeyCachedCascadedConfigurationSource(

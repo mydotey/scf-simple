@@ -9,7 +9,7 @@ import org.mydotey.scf.Property;
 import org.mydotey.scf.PropertyConfig;
 import org.mydotey.scf.facade.ConfigurationManagers;
 import org.mydotey.scf.facade.ConfigurationProperties;
-import org.mydotey.scf.facade.StringPropertySources;
+import org.mydotey.scf.facade.SimpleConfigurationSources;
 import org.mydotey.scf.threading.TaskExecutor;
 
 /**
@@ -20,7 +20,7 @@ import org.mydotey.scf.threading.TaskExecutor;
 public class SystemPropertiesConfigurationSourceTest {
 
     protected SystemPropertiesConfigurationSource createSource() {
-        return StringPropertySources.newSystemPropertiesSource("system-properties");
+        return SimpleConfigurationSources.newSystemPropertiesSource("system-properties");
     }
 
     protected ConfigurationManager createManager(SystemPropertiesConfigurationSource source) {

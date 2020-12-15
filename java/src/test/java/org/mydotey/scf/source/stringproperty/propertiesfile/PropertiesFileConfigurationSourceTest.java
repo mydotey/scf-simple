@@ -7,7 +7,7 @@ import org.mydotey.scf.ConfigurationManagerConfig;
 import org.mydotey.scf.Property;
 import org.mydotey.scf.facade.ConfigurationManagers;
 import org.mydotey.scf.facade.StringProperties;
-import org.mydotey.scf.facade.StringPropertySources;
+import org.mydotey.scf.facade.SimpleConfigurationSources;
 
 /**
  * @author koqizhao
@@ -17,11 +17,11 @@ import org.mydotey.scf.facade.StringPropertySources;
 public class PropertiesFileConfigurationSourceTest {
 
     protected ConfigurationManager createManager(String fileName) {
-        PropertiesFileConfigurationSourceConfig sourceConfig = StringPropertySources
+        PropertiesFileConfigurationSourceConfig sourceConfig = SimpleConfigurationSources
             .newPropertiesFileSourceConfigBuilder().setName("properties-source").setFileName(fileName).build();
         System.out.println("source config: " + sourceConfig + "\n");
         ConfigurationManagerConfig managerConfig = ConfigurationManagers.newConfigBuilder().setName("test")
-                .addSource(1, StringPropertySources.newLocalPropertiesFileSource(sourceConfig)).build();
+                .addSource(1, SimpleConfigurationSources.newLocalPropertiesFileSource(sourceConfig)).build();
         System.out.println("manager config: " + managerConfig + "\n");
         return ConfigurationManagers.newManager(managerConfig);
     }

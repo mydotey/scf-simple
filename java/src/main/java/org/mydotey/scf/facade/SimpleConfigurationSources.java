@@ -22,71 +22,67 @@ import org.mydotey.scf.util.PropertyKeyGenerator;
  *
  * May 22, 2018
  */
-public class StringPropertySources {
+public interface SimpleConfigurationSources {
 
-    protected StringPropertySources() {
-
-    }
-
-    public static SystemPropertiesConfigurationSource newSystemPropertiesSource() {
+    static SystemPropertiesConfigurationSource newSystemPropertiesSource() {
         return newSystemPropertiesSource("system-properties");
     }
 
-    public static SystemPropertiesConfigurationSource newSystemPropertiesSource(String name) {
+    static SystemPropertiesConfigurationSource newSystemPropertiesSource(String name) {
         ConfigurationSourceConfig config = ConfigurationSources.newConfig(name);
         return new SystemPropertiesConfigurationSource(config);
     }
 
-    public static EnvironmentVariableConfigurationSource newEnvironmentVariableSource() {
+    static EnvironmentVariableConfigurationSource newEnvironmentVariableSource() {
         return newEnvironmentVariableSource("environment-variables");
     }
 
-    public static EnvironmentVariableConfigurationSource newEnvironmentVariableSource(String name) {
+    static EnvironmentVariableConfigurationSource newEnvironmentVariableSource(String name) {
         ConfigurationSourceConfig config = ConfigurationSources.newConfig(name);
         return new EnvironmentVariableConfigurationSource(config);
     }
 
-    public static MemoryMapConfigurationSource newMemoryMapSource() {
+    static MemoryMapConfigurationSource newMemoryMapSource() {
         return newMemoryMapSource("memory-map");
     }
 
-    public static MemoryMapConfigurationSource newMemoryMapSource(String name) {
+    static MemoryMapConfigurationSource newMemoryMapSource(String name) {
         ConfigurationSourceConfig config = ConfigurationSources.newConfig(name);
         return new MemoryMapConfigurationSource(config);
     }
 
-    public static PropertiesFileConfigurationSource newPropertiesFileSource(String fileName) {
+    static PropertiesFileConfigurationSource newPropertiesFileSource(String fileName) {
         PropertiesFileConfigurationSourceConfig config = new PropertiesFileConfigurationSourceConfig.Builder()
             .setFileName(fileName).build();
         return newPropertiesFileSource(config);
     }
 
-    public static PropertiesFileConfigurationSourceConfig.Builder newPropertiesFileSourceConfigBuilder() {
+    static PropertiesFileConfigurationSourceConfig.Builder newPropertiesFileSourceConfigBuilder() {
         return new PropertiesFileConfigurationSourceConfig.Builder();
     }
 
-    public static PropertiesFileConfigurationSource newPropertiesFileSource(
+    static PropertiesFileConfigurationSource newPropertiesFileSource(
         PropertiesFileConfigurationSourceConfig config) {
         return new PropertiesFileConfigurationSource(config);
     }
 
-    public static PropertiesFileConfigurationSource newLocalPropertiesFileSource(String fileName) {
+    static PropertiesFileConfigurationSource newLocalPropertiesFileSource(String fileName) {
         PropertiesFileConfigurationSourceConfig config = new PropertiesFileConfigurationSourceConfig.Builder()
             .setFileName(fileName).build();
         return newLocalPropertiesFileSource(config);
     }
 
-    public static LocalPropertiesFileConfigurationSource newLocalPropertiesFileSource(
+    static LocalPropertiesFileConfigurationSource newLocalPropertiesFileSource(
         PropertiesFileConfigurationSourceConfig config) {
         return new LocalPropertiesFileConfigurationSource(config);
     }
 
-    public static CascadedConfigurationSource newCascadedSource(
+    static CascadedConfigurationSource newCascadedSource(
         ConfigurationSource source, String... cascadedFactors) {
         return newCascadedSource(source, Arrays.asList(cascadedFactors));
     }
 
-    public static CascadedConfigurationSource newCascadedSource(
+    static CascadedConfigurationSource newCascadedSource(
         ConfigurationSource source, List<String> cascadedFactors) {
         CascadedConfigurationSourceConfig.Builder builder = new CascadedConfigurationSourceConfig.Builder();
         CascadedConfigurationSourceConfig config = builder.setSource(source)
@@ -95,30 +91,30 @@ public class StringPropertySources {
         return new CascadedConfigurationSource(config);
     }
 
-    public static CascadedConfigurationSourceConfig.Builder newCascadedSourceConfigBuilder() {
+    static CascadedConfigurationSourceConfig.Builder newCascadedSourceConfigBuilder() {
         return new CascadedConfigurationSourceConfig.Builder();
     }
 
-    public static CascadedConfigurationSource newCascadedSource(
+    static CascadedConfigurationSource newCascadedSource(
         CascadedConfigurationSourceConfig config) {
         return new CascadedConfigurationSource(config);
     }
 
-    public static PipelineConfigurationSource newPipelineSource(ConfigurationSource... sources) {
+    static PipelineConfigurationSource newPipelineSource(ConfigurationSource... sources) {
         return newPipelineSource(Arrays.asList(sources));
     }
 
-    public static PipelineConfigurationSource newPipelineSource(List<ConfigurationSource> sources) {
+    static PipelineConfigurationSource newPipelineSource(List<ConfigurationSource> sources) {
         PipelineConfigurationSourceConfig config = new PipelineConfigurationSourceConfig.Builder()
             .addSources(sources).build();
         return newPipelineSource(config);
     }
 
-    public static PipelineConfigurationSourceConfig.Builder newPipelineSourceConfigBuilder() {
+    static PipelineConfigurationSourceConfig.Builder newPipelineSourceConfigBuilder() {
         return new PipelineConfigurationSourceConfig.Builder();
     }
 
-    public static PipelineConfigurationSource newPipelineSource(
+    static PipelineConfigurationSource newPipelineSource(
         PipelineConfigurationSourceConfig config) {
         return new PipelineConfigurationSource(config);
     }

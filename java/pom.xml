@@ -5,7 +5,7 @@
 
     <groupId>org.mydotey.scf</groupId>
     <artifactId>scf-simple</artifactId>
-    <version>1.6.3</version>
+    <version>1.6.4</version>
     <packaging>jar</packaging>
     <name>scf-simple</name>
     <description>scf extension for &lt;String, String&gt; configuration source</description>
